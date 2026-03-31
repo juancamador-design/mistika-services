@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mistika — Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:#09090e !important;min-height:100%}
+body{background:#09090e !important;margin:0;padding:0;width:100%;min-height:100vh}
+
+#sv-root{
+  --gold:#c8a96e;--gold-p:rgba(200,169,110,0.15);--gold-g:rgba(200,169,110,0.07);
+  --cream:#f0ece4;--cream-m:rgba(240,236,228,0.58);
+  --ink:#09090e;--ink2:#13131c;--ink3:#1c1c28;
+  --fog:rgba(255,255,255,0.05);
+  background:#09090e !important;color:#f0ece4 !important;
+  font-family:'DM Sans',Georgia,sans-serif;font-weight:300;
+  min-height:100vh;width:100%;display:block;
+}
+#sv-root *{font-family:'DM Sans',Georgia,sans-serif;}
+#sv-root .sv-h1,#sv-root .sv-card-name,#sv-root .sv-exp-title,#sv-root .sv-prod-name{
+  font-family:'Cormorant Garamond',Georgia,serif !important;
+}
+
+/* ===== LANG BAR ===== */
+.sv-lang-bar{display:flex;justify-content:flex-end;padding:16px 32px 0;gap:4px;}
+.sv-lang-btn{
+  font-size:11px;letter-spacing:.1em;font-weight:500;
+  padding:5px 14px;border-radius:4px;border:.5px solid rgba(255,255,255,0.1);
+  cursor:pointer;background:transparent;color:rgba(240,236,228,0.55);transition:all .18s;
+}
+.sv-lang-btn.on{background:rgba(200,169,110,0.15);border-color:#c8a96e;color:#c8a96e;}
+.sv-lang-btn:hover:not(.on){color:#f0ece4;border-color:rgba(255,255,255,0.2);}
+
+/* ===== HERO ===== */
+.sv-hero{position:relative;padding:60px 32px 48px;text-align:center;overflow:hidden;}
+.sv-hero::before{
+  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:700px;height:500px;
+  background:radial-gradient(ellipse,rgba(200,169,110,0.05) 0%,transparent 70%);
+  pointer-events:none;
+}
+.sv-eyebrow{
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:#c8a96e;margin-bottom:18px;
+  display:flex;align-items:center;justify-content:center;gap:12px;font-weight:500;
+}
+.sv-eyebrow::before,.sv-eyebrow::after{content:'';width:36px;height:.5px;background:#c8a96e;opacity:.4;}
+.sv-h1{
+  font-size:clamp(38px,5.5vw,66px);font-weight:300;line-height:1.06;
+  color:#f0ece4;margin-bottom:14px;
+}
+.sv-h1 em{font-style:italic;color:#c8a96e;}
+.sv-hero-sub{
+  font-size:14px;color:rgba(240,236,228,0.55);
+  max-width:460px;margin:0 auto;line-height:1.8;font-weight:300;
+}
+
+/* ===== SECTION LABELS ===== */
+.sv-section{padding:0 32px 12px;max-width:1080px;margin:40px auto 0;}
+.sv-section-label{
+  display:flex;align-items:center;gap:14px;
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(240,236,228,0.4);font-weight:500;margin-bottom:20px;
+}
+.sv-section-label::after{content:'';flex:1;height:.5px;background:rgba(255,255,255,0.07);}
+
+/* ===== SERVICE GRID ===== */
+.sv-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:10px;max-width:1080px;margin:0 auto;padding:0 32px;
+}
+
+/* ===== SERVICE CARD ===== */
+.sv-card{
+  background:#13131c;border:.5px solid rgba(255,255,255,0.07);
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:border-color .3s, transform .3s;
+  position:relative;
+}
+.sv-card:hover{border-color:rgba(200,169,110,0.2);transform:translateY(-2px);}
+.sv-card.open{border-color:rgba(200,169,110,0.45);transform:translateY(-2px);}
+.sv-card.open::before{
+  content:'';position:absolute;inset:0;border-radius:14px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(200,169,110,0.04) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* Card collapsed */
+.sv-card-front{padding:20px 18px 18px;position:relative;z-index:1;}
+.sv-card-icon-wrap{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:14px;
+  background:rgba(255,255,255,0.04);
+  border:.5px solid rgba(255,255,255,0.06);
+}
+.sv-card-name{
+  font-size:18px;font-weight:400;color:#f0ece4;
+  margin-bottom:6px;line-height:1.15;
+}
+.sv-card-teaser{
+  font-size:11px;color:rgba(240,236,228,0.45);
+  line-height:1.6;margin-bottom:16px;
+}
+.sv-card-toggle{
+  display:flex;align-items:center;gap:7px;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+  color:rgba(200,169,110,0.65);background:none;border:none;cursor:pointer;
+  padding:0;transition:color .2s;
+}
+.sv-card-toggle:hover{color:#c8a96e;}
+.sv-toggle-circle{
+  width:18px;height:18px;border-radius:50%;
+  border:.5px solid rgba(200,169,110,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:300;color:rgba(200,169,110,0.65);
+  transition:all .3s;flex-shrink:0;
+}
+.sv-card.open .sv-toggle-circle{
+  background:#c8a96e;border-color:#c8a96e;
+  color:#09090e;transform:rotate(45deg);
+}
+
+/* Card expanded */
+.sv-card-back{
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .5s cubic-bezier(.16,1,.3,1), opacity .4s ease;
+  position:relative;z-index:1;
+}
+.sv-card.open .sv-card-back{max-height:500px;opacity:1;}
+.sv-card-back-inner{
+  padding:0 18px 20px;
+  border-top:.5px solid rgba(255,255,255,0.06);
+  padding-top:16px;
+}
+.sv-exp-eyebrow{
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:#c8a96e;margin-bottom:8px;font-weight:500;
+}
+.sv-exp-title{
+  font-size:15px;font-weight:400;color:#f0ece4;
+  margin-bottom:10px;line-height:1.3;
+}
+.sv-exp-text{
+  font-size:12px;color:rgba(240,236,228,0.6);
+  line-height:1.75;margin-bottom:14px;
+}
+.sv-exp-features{margin-bottom:16px;}
+.sv-exp-feat{
+  display:flex;gap:8px;align-items:flex-start;
+  padding:4px 0;font-size:11px;color:rgba(240,236,228,0.55);
+  line-height:1.5;
+  border-bottom:.5px solid rgba(255,255,255,0.04);
+}
+.sv-exp-feat:last-child{border-bottom:none;}
+.sv-exp-dot{
+  width:4px;height:4px;border-radius:50%;background:#c8a96e;
+  flex-shrink:0;margin-top:5px;
+}
+.sv-exp-cta{
+  display:flex;align-items:center;justify-content:center;gap:6px;width:100%;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+  color:#c8a96e;text-decoration:none;
+  border:.5px solid rgba(200,169,110,.3);padding:9px 14px;border-radius:4px;
+  background:rgba(200,169,110,.07);transition:all .22s;
+}
+.sv-exp-cta:hover{background:rgba(200,169,110,.18);border-color:#c8a96e;color:#f0ece4;}
+.sv-exp-cta-arr{transition:transform .18s;display:inline-block;}
+.sv-exp-cta:hover .sv-exp-cta-arr{transform:translateX(3px);}
+
+/* ===== PRODUCTS SECTION ===== */
+.sv-prod-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:10px;max-width:1080px;margin:0 auto;padding:0 32px 60px;
+}
+.sv-prod-card{
+  background:#13131c;border:.5px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:22px 20px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:border-color .25s, transform .25s;
+}
+.sv-prod-card:hover{border-color:rgba(200,169,110,0.2);transform:translateY(-2px);}
+.sv-prod-top{display:flex;align-items:center;gap:12px;}
+.sv-prod-icon{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  background:rgba(255,255,255,0.04);border:.5px solid rgba(255,255,255,0.06);
+  flex-shrink:0;
+}
+.sv-prod-name{font-size:20px;font-weight:400;color:#f0ece4;line-height:1.1;}
+.sv-prod-desc{font-size:12px;color:rgba(240,236,228,0.5);line-height:1.65;flex:1;}
+.sv-prod-link{
+  display:inline-flex;align-items:center;gap:6px;align-self:flex-start;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+  color:#c8a96e;text-decoration:none;
+  border:.5px solid rgba(200,169,110,.3);padding:8px 14px;border-radius:4px;
+  background:rgba(200,169,110,.07);transition:all .22s;margin-top:4px;
+}
+.sv-prod-link:hover{background:rgba(200,169,110,.18);border-color:#c8a96e;color:#f0ece4;}
+
+/* ===== DIVIDER ===== */
+.sv-divider{
+  max-width:1080px;margin:32px auto 0;padding:0 32px;
+}
+.sv-divider hr{border:none;border-top:.5px solid rgba(255,255,255,0.07);}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:640px){
+  .sv-hero{padding:52px 18px 36px;}
+  .sv-section{padding:0 16px 10px;}
+  .sv-grid{padding:0 16px;grid-template-columns:1fr;}
+  .sv-prod-grid{padding:0 16px 48px;grid-template-columns:1fr;}
+  .sv-divider{padding:0 16px;}
+  .sv-lang-bar{padding:12px 18px 0;}
+}
+</style>
+</head>
+<body>
+<div id="sv-root">
+
+  <!-- LANG -->
+  <div class="sv-lang-bar">
+    <button class="sv-lang-btn on" data-lang="es" onclick="svLang('es')">ES</button>
+    <button class="sv-lang-btn"   data-lang="en" onclick="svLang('en')">EN</button>
+  </div>
+
+  <!-- HERO -->
+  <div class="sv-hero">
+    <div class="sv-eyebrow"
+         data-es="Mistika · Guía de Servicios"
+         data-en="Mistika · Services Guide">Mistika · Guía de Servicios</div>
+    <h1 class="sv-h1"
+        data-es="Descubre Nuestros<br><em>Caminos de Guía</em>"
+        data-en="Discover Our<br><em>Paths of Guidance</em>">
+      Descubre Nuestros<br><em>Caminos de Guía</em>
+    </h1>
+    <p class="sv-hero-sub"
+       data-es="Cada práctica espiritual abre una puerta diferente. Explora, aprende qué resuena contigo, y conecta con el especialista ideal."
+       data-en="Each spiritual practice opens a different door. Explore, discover what resonates with you, and connect with the right specialist.">
+      Cada práctica espiritual abre una puerta diferente. Explora, aprende qué resuena contigo, y conecta con el especialista ideal.
+    </p>
+  </div>
+
+  <!-- ===== SECTION: SERVICIOS FORMATIVOS ===== -->
+  <div class="sv-section">
+    <div class="sv-section-label"
+         data-es="Prácticas Espirituales — haz clic para explorar cada una"
+         data-en="Spiritual Practices — click to explore each one">
+      Prácticas Espirituales — haz clic para explorar cada una
+    </div>
+  </div>
+
+  <div class="sv-grid" id="svGrid">
+    <!-- Cards rendered by JS -->
+  </div>
+
+  <!-- ===== DIVIDER ===== -->
+  <div class="sv-divider"><hr></div>
+
+  <!-- ===== SECTION: PRODUCTOS Y MEMBRESÍAS ===== -->
+  <div class="sv-section" style="margin-top:36px;">
+    <div class="sv-section-label"
+         data-es="Productos y Membresías"
+         data-en="Products & Memberships">
+      Productos y Membresías
+    </div>
+  </div>
+
+  <div class="sv-prod-grid" id="svProdGrid">
+    <!-- Rendered by JS -->
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   SERVICE DATA — edita aquí los textos
+   Para cada servicio:
+   - icon: emoji que aparece en la tarjeta
+   - color: color del fondo del icono (rgba)
+   - specialists_url: link a la página de especialistas con filtro aplicado
+   ============================================================ */
+var SERVICES = [
+  {
+    icon:'🔢',color:'rgba(90,159,212,0.15)',
+    name_es:'Numerología',name_en:'Numerology',
+    teaser_es:'El lenguaje de los números como espejo del alma.',
+    teaser_en:'The language of numbers as a mirror of the soul.',
+    exp_title_es:'¿Qué es la Numerología?',exp_title_en:'What is Numerology?',
+    exp_text_es:'La numerología es el estudio del significado espiritual y energético de los números. A partir de tu nombre y fecha de nacimiento, revela tu camino de vida, talentos innatos y los ciclos de tiempo que influyen en tus decisiones.',
+    exp_text_en:'Numerology is the study of the spiritual and energetic meaning of numbers. Using your name and birth date, it reveals your life path, innate talents, and the time cycles that influence your decisions.',
+    features_es:'Tu número de camino de vida y lo que significa|Ciclos personales — cuándo actuar y cuándo esperar|Compatibilidad numérica en relaciones y negocios|Talentos ocultos y desafíos kármicos',
+    features_en:'Your life path number and what it means|Personal cycles — when to act and when to wait|Numerical compatibility in relationships and business|Hidden talents and karmic challenges',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  },
+  {
+    icon:'📜',color:'rgba(200,169,110,0.15)',
+    name_es:'Registros Akásicos',name_en:'Akashic Records',
+    teaser_es:'El archivo eterno de tu alma, accesible hoy.',
+    teaser_en:'The eternal archive of your soul, accessible today.',
+    exp_title_es:'¿Qué son los Registros Akásicos?',exp_title_en:'What are the Akashic Records?',
+    exp_text_es:'Los Registros Akásicos son un campo energético — llamado a veces "la biblioteca del alma" — donde se almacena toda la información de tus vidas y experiencias a través del tiempo. Un lector entrenado puede acceder a este campo para revelar patrones profundos, contratos del alma y el propósito de tu vida actual.',
+    exp_text_en:'The Akashic Records are an energetic field — sometimes called "the soul\'s library" — where all information from your lives and experiences across time is stored. A trained reader can access this field to reveal deep patterns, soul contracts, and the purpose of your current life.',
+    features_es:'Comprensión profunda de tu propósito de vida|Sanación de patrones repetitivos y bloqueos|Contratos del alma y relaciones kármicas|Mensajes de tu yo superior para el presente',
+    features_en:'Deep understanding of your life purpose|Healing of repetitive patterns and blocks|Soul contracts and karmic relationships|Messages from your higher self for the present',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  },
+  {
+    icon:'🧠',color:'rgba(139,127,212,0.15)',
+    name_es:'Coaching / NLP',name_en:'Coaching / NLP',
+    teaser_es:'Reprograma tu mente para crear la vida que deseas.',
+    teaser_en:'Reprogram your mind to create the life you desire.',
+    exp_title_es:'¿Qué es el Coaching con PNL?',exp_title_en:'What is Coaching with NLP?',
+    exp_text_es:'El Coaching con Programación Neurolingüística combina técnicas de mentoría consciente con herramientas para reprogramar patrones mentales y emocionales. Es un trabajo profundo de transformación que une la psicología moderna con la intuición espiritual.',
+    exp_text_en:'Coaching with Neuro-Linguistic Programming combines conscious mentoring techniques with tools to reprogram mental and emotional patterns. It is deep transformational work that unites modern psychology with spiritual intuition.',
+    features_es:'Identificación y reprogramación de creencias limitantes|Técnicas de visualización y anclaje para metas|Alineación entre propósito, valores y acciones|Herramientas prácticas para sostener el cambio',
+    features_en:'Identification and reprogramming of limiting beliefs|Visualization and anchoring techniques for goals|Alignment between purpose, values, and actions|Practical tools to sustain change',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  },
+  {
+    icon:'👁',color:'rgba(196,127,160,0.15)',
+    name_es:'Mediumidad',name_en:'Mediumship',
+    teaser_es:'Puentes de luz entre este mundo y el más allá.',
+    teaser_en:'Bridges of light between this world and beyond.',
+    exp_title_es:'¿Qué es la Mediumidad?',exp_title_en:'What is Mediumship?',
+    exp_text_es:'La mediumidad es la capacidad de algunos individuos para percibir y comunicarse con energías que han trascendido el plano físico. Una sesión de mediumnidad ofrece mensajes de consuelo, cierre y orientación provenientes de seres queridos que han partido.',
+    exp_text_en:'Mediumship is the ability of certain individuals to perceive and communicate with energies that have transcended the physical plane. A mediumship session offers messages of comfort, closure, and guidance from loved ones who have passed.',
+    features_es:'Conexión con seres queridos que han partido|Mensajes de consuelo y cierre emocional|Validaciones específicas que confirman la conexión|Orientación para el camino presente',
+    features_en:'Connection with loved ones who have passed|Messages of comfort and emotional closure|Specific validations that confirm the connection|Guidance for the present path',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  },
+  {
+    icon:'⭐',color:'rgba(90,159,212,0.15)',
+    name_es:'Carta Natal',name_en:'Natal Chart',
+    teaser_es:'Tu mapa cósmico personal al momento de nacer.',
+    teaser_en:'Your personal cosmic map at the moment of birth.',
+    exp_title_es:'¿Qué es la Carta Natal?',exp_title_en:'What is a Natal Chart?',
+    exp_text_es:'La carta natal es un mapa del cielo exactamente como se veía en el momento en que naciste. Captura la posición de los planetas, el sol, la luna y otros puntos astrológicos. Es el punto de partida de toda lectura astrológica y revela tu carácter, dones, desafíos y el timing de los grandes ciclos de tu vida.',
+    exp_text_en:'The natal chart is a map of the sky exactly as it appeared at the moment of your birth. It captures the position of the planets, sun, moon, and other astrological points. It is the starting point of all astrological reading and reveals your character, gifts, challenges, and the timing of the great cycles in your life.',
+    features_es:'Análisis de tu sol, luna y ascendente|Casas astrológicas y áreas de vida|Aspectos planetarios y su influencia|Mejores períodos para amor, trabajo y salud',
+    features_en:'Analysis of your sun, moon, and ascendant|Astrological houses and life areas|Planetary aspects and their influence|Best periods for love, work, and health',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  },
+  {
+    icon:'✨',color:'rgba(77,184,160,0.15)',
+    name_es:'Reiki',name_en:'Reiki',
+    teaser_es:'Canalización de energía universal para sanar y equilibrar.',
+    teaser_en:'Channeling of universal energy to heal and balance.',
+    exp_title_es:'¿Qué es el Reiki?',exp_title_en:'What is Reiki?',
+    exp_text_es:'El Reiki es una técnica japonesa de sanación energética basada en la transmisión de energía vital universal a través de las manos del practicante. Restaura el flujo natural de energía en el cuerpo, liberando bloqueos físicos, emocionales y mentales. Puede realizarse en persona o a distancia con igual efectividad.',
+    exp_text_en:'Reiki is a Japanese energy healing technique based on the transmission of universal life energy through the practitioner\'s hands. It restores the natural flow of energy in the body, releasing physical, emotional, and mental blockages. It can be performed in person or at distance with equal effectiveness.',
+    features_es:'Liberación de bloqueos energéticos|Reducción del estrés y la ansiedad|Apoyo en procesos de sanación física|Equilibrio de los centros energéticos (chakras)',
+    features_en:'Release of energy blockages|Reduction of stress and anxiety|Support in physical healing processes|Balancing of energy centers (chakras)',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  },
+  {
+    icon:'🌿',color:'rgba(92,184,133,0.15)',
+    name_es:'Sanación Pránica',name_en:'Pranic Healing',
+    teaser_es:'Limpieza y energización del cuerpo de energía.',
+    teaser_en:'Cleansing and energizing the body of energy.',
+    exp_title_es:'¿Qué es la Sanación Pránica?',exp_title_en:'What is Pranic Healing?',
+    exp_text_es:'La Sanación Pránica es un sistema desarrollado por el Maestro Choa Kok Sui que trabaja directamente sobre el cuerpo energético humano (aura y chakras). A través de técnicas específicas de barrido y energización, elimina energías agotadas y repone energía vital, acelerando los procesos naturales de sanación.',
+    exp_text_en:'Pranic Healing is a system developed by Master Choa Kok Sui that works directly on the human energy body (aura and chakras). Through specific sweeping and energizing techniques, it removes depleted energies and replenishes vital energy, accelerating natural healing processes.',
+    features_es:'Limpieza de energías agotadas del aura|Energización de órganos y chakras|Aceleración de procesos de sanación|Apoyo en condiciones físicas y emocionales',
+    features_en:'Cleansing of depleted aura energies|Energizing of organs and chakras|Acceleration of healing processes|Support for physical and emotional conditions',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  },
+  {
+    icon:'🌅',color:'rgba(212,147,90,0.15)',
+    name_es:'Apertura de Caminos',name_en:'Path Opening',
+    teaser_es:'Desbloquea los flujos de abundancia y oportunidad.',
+    teaser_en:'Unblock the flows of abundance and opportunity.',
+    exp_title_es:'¿Qué es la Apertura de Caminos?',exp_title_en:'What is Path Opening?',
+    exp_text_es:'La Apertura de Caminos es una práctica espiritual que trabaja para remover obstáculos energéticos que bloquean el progreso en áreas clave de la vida: trabajo, amor, salud y abundancia. Se realiza a través de rituales, oraciones y trabajo energético específico, y proviene de tradiciones espirituales afrocaribeñas y curanderismo latinoamericano.',
+    exp_text_en:'Path Opening is a spiritual practice that works to remove energetic obstacles blocking progress in key areas of life: work, love, health, and abundance. It is performed through rituals, prayers, and specific energetic work, and originates from Afro-Caribbean spiritual traditions and Latin American curanderismo.',
+    features_es:'Remoción de bloqueos en amor y relaciones|Apertura de oportunidades laborales y económicas|Protección espiritual y fortalecimiento de la energía|Rituales personalizados según la situación',
+    features_en:'Removal of blocks in love and relationships|Opening of work and financial opportunities|Spiritual protection and energy strengthening|Personalized rituals according to the situation',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  },
+  {
+    icon:'🌬',color:'rgba(139,127,212,0.15)',
+    name_es:'Limpieza Energética',name_en:'Energy Cleansing',
+    teaser_es:'Purifica tu campo energético y el de tus espacios.',
+    teaser_en:'Purify your energetic field and your spaces.',
+    exp_title_es:'¿Qué es la Limpieza Energética?',exp_title_en:'What is Energy Cleansing?',
+    exp_text_es:'La Limpieza Energética es un proceso de purificación del campo de energía personal (aura) o de un espacio físico. Elimina energías densas, negativas o estancadas que se acumulan por el estrés, situaciones difíciles, o la influencia de otros. Puede incluir técnicas como el sahumerio, uso de cristales, campanas tibetanas, y trabajo energético directo.',
+    exp_text_en:'Energy Cleansing is a purification process of the personal energy field (aura) or a physical space. It removes dense, negative, or stagnant energies that accumulate from stress, difficult situations, or the influence of others. It can include techniques such as smudging, use of crystals, Tibetan singing bowls, and direct energetic work.',
+    features_es:'Limpieza del aura y campo personal|Purificación de hogares, oficinas o espacios|Eliminación de energías negativas o estancadas|Protección y fortalecimiento energético post-limpieza',
+    features_en:'Cleansing of the aura and personal field|Purification of homes, offices, or spaces|Elimination of negative or stagnant energies|Energetic protection and strengthening post-cleansing',
+    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
+  }
+];
+
+/* ============================================================
+   PRODUCTS DATA
+   ============================================================ */
+var PRODUCTS = [
+  {
+    icon:'⭕',color:'rgba(200,169,110,0.15)',
+    name_es:'Mistika Circle',name_en:'Mistika Circle',
+    desc_es:'Nuestra membresía espiritual mensual y anual. Tránsitos astrológicos, meditaciones, rituales y acceso exclusivo a contenido premium.',
+    desc_en:'Our monthly and annual spiritual membership. Astrological transits, meditations, rituals and exclusive access to premium content.',
+    link_es:'Conoce la membresía',link_en:'Learn about membership',
+    url:'https://mistikaclub.app.clientclub.net/courses/offers/2fea2cb5-8d4b-4312-a3a8-da4c88b5bda3'
+  },
+  {
+    icon:'📅',color:'rgba(92,184,133,0.15)',
+    name_es:'Calendario Mistika 2026',name_en:'Mistika Calendar 2026',
+    desc_es:'Tu año de luz y propósito. Un calendario que combina diseño, bienestar y reflexión. Con edición personalizada Premium disponible.',
+    desc_en:'Your year of light and purpose. A calendar that combines design, wellness and reflection. Premium personalized edition available.',
+    link_es:'Ver el Calendario',link_en:'See the Calendar',
+    url:'https://mistika.cloud/checkout-page---calendar'
+  },
+  {
+    icon:'🎓',color:'rgba(90,159,212,0.15)',
+    name_es:'Mystika Academy',name_en:'Mystika Academy',
+    desc_es:'Aprende las artes espirituales de mano de expertos. Cursos, talleres y formaciones para todos los niveles — desde curiosos hasta practicantes.',
+    desc_en:'Learn the spiritual arts from experts. Courses, workshops, and training for all levels — from curious beginners to practitioners.',
+    link_es:'Explorar la Academia',link_en:'Explore the Academy',
+    url:'#'
+  }
+];
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+var lang = localStorage.getItem('sv_lang') || 'es';
+var CTA_SPEC = {es:'Ver especialistas →',en:'See specialists →'};
+var KNOW_MORE = {es:'Conoce más',en:'Learn more'};
+
+function renderServices(){
+  var grid = document.getElementById('svGrid');
+  grid.innerHTML = SERVICES.map(function(s,i){
+    var feats = (lang==='en'?s.features_en:s.features_es)
+      .split('|').map(function(f){
+        return '<div class="sv-exp-feat"><div class="sv-exp-dot"></div><span>'+f.trim()+'</span></div>';
+      }).join('');
+    return '<div class="sv-card" onclick="svToggle(this)" style="animation:svFadeUp .4s both;animation-delay:'+(i*0.05)+'s">'
+      +'<div class="sv-card-front">'
+      +'<div class="sv-card-icon-wrap" style="background:'+s.color+'">'+s.icon+'</div>'
+      +'<div class="sv-card-name">'+(lang==='en'?s.name_en:s.name_es)+'</div>'
+      +'<div class="sv-card-teaser">'+(lang==='en'?s.teaser_en:s.teaser_es)+'</div>'
+      +'<button class="sv-card-toggle">'
+      +(KNOW_MORE[lang])+' <div class="sv-toggle-circle">+</div>'
+      +'</button>'
+      +'</div>'
+      +'<div class="sv-card-back"><div class="sv-card-back-inner">'
+      +'<div class="sv-exp-eyebrow">'+(lang==='en'?s.name_en:s.name_es)+'</div>'
+      +'<div class="sv-exp-title">'+(lang==='en'?s.exp_title_en:s.exp_title_es)+'</div>'
+      +'<div class="sv-exp-text">'+(lang==='en'?s.exp_text_en:s.exp_text_es)+'</div>'
+      +'<div class="sv-exp-features">'+feats+'</div>'
+      +'<a class="sv-exp-cta" href="'+s.specialists_url+'" target="_blank">'
+      +CTA_SPEC[lang]+' <span class="sv-exp-cta-arr"></span></a>'
+      +'</div></div>'
+      +'</div>';
+  }).join('');
+}
+
+function renderProducts(){
+  var grid = document.getElementById('svProdGrid');
+  grid.innerHTML = PRODUCTS.map(function(p,i){
+    return '<div class="sv-prod-card" style="animation:svFadeUp .4s both;animation-delay:'+(0.5+i*0.08)+'s">'
+      +'<div class="sv-prod-top">'
+      +'<div class="sv-prod-icon" style="background:'+p.color+'">'+p.icon+'</div>'
+      +'<div class="sv-prod-name">'+(lang==='en'?p.name_en:p.name_es)+'</div>'
+      +'</div>'
+      +'<div class="sv-prod-desc">'+(lang==='en'?p.desc_en:p.desc_es)+'</div>'
+      +'<a class="sv-prod-link" href="'+p.url+'" target="_blank">'
+      +(lang==='en'?p.link_en:p.link_es)+' →</a>'
+      +'</div>';
+  }).join('');
+}
+
+function svToggle(card){
+  var wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.sv-card').forEach(function(c){c.classList.remove('open');});
+  if(!wasOpen){
+    card.classList.add('open');
+    setTimeout(svSendHeight, 520);
+  }
+  svSendHeight();
+}
+
+function svLang(l){
+  lang = l;
+  localStorage.setItem('sv_lang', l);
+  document.querySelectorAll('.sv-lang-btn').forEach(function(b){
+    b.classList.toggle('on', b.dataset.lang===l);
+  });
+  // Apply static text
+  document.querySelectorAll('#sv-root [data-es]').forEach(function(el){
+    var txt = el.getAttribute('data-'+l);
+    if(!txt) return;
+    if(txt.indexOf('<')>-1) el.innerHTML=txt; else el.textContent=txt;
+  });
+  renderServices();
+  renderProducts();
+  svSendHeight();
+}
+
+// Auto-height for iframe
+function svSendHeight(){
+  var h = document.getElementById('sv-root').scrollHeight;
+  window.parent.postMessage({mkHeight: h}, '*');
+}
+window.addEventListener('load', svSendHeight);
+window.addEventListener('resize', svSendHeight);
+setInterval(svSendHeight, 800);
+
+// Fade-up animation
+var style = document.createElement('style');
+style.textContent = '@keyframes svFadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}';
+document.head.appendChild(style);
+
+// Init
+renderServices();
+renderProducts();
+</script>
+</body>
+</html>
