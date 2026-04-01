@@ -1,523 +1,428 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mistika — Services</title>
+<title>Services — Mistika</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{background:#09090e !important;min-height:100%}
-body{background:#09090e !important;margin:0;padding:0;width:100%;min-height:100vh}
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0d0b1a;--deep:#1a1035;
+  --ash:#f8f5f0;--fog:#e8e3db;--mist:#d4ccc0;--stone:#8a8278;
+  --gold:#c9a84c;--gold-soft:#e8d49a;
+  --violet:#3a2d8c;--vm:#7c6fa0;--vs:#e8e4f2;--vp:#f0edf8;
+  --sage:#5c7a6a;--sage-soft:#e0ebe4;--linen:#f0ece6;
+  --r:12px;--rl:20px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);font-size:15px;line-height:1.6;overflow-x:hidden;}
 
-#sv-root{
-  --gold:#c8a96e;--gold-p:rgba(200,169,110,0.15);--gold-g:rgba(200,169,110,0.07);
-  --cream:#f0ece4;--cream-m:rgba(240,236,228,0.58);
-  --ink:#09090e;--ink2:#13131c;--ink3:#1c1c28;
-  --fog:rgba(255,255,255,0.05);
-  background:#09090e !important;color:#f0ece4 !important;
-  font-family:'DM Sans',Georgia,sans-serif;font-weight:300;
-  min-height:100vh;width:100%;display:block;
-}
-#sv-root *{font-family:'DM Sans',Georgia,sans-serif;}
-#sv-root .sv-h1,#sv-root .sv-card-name,#sv-root .sv-exp-title,#sv-root .sv-prod-name{
-  font-family:'Cormorant Garamond',Georgia,serif !important;
-}
+/* LANG BAR */
+.lang-bar{background:var(--violet);padding:8px 40px;display:flex;justify-content:flex-end;align-items:center;gap:10px;}
+.lang-note{font-size:12px;color:rgba(255,255,255,0.65);font-family:'DM Sans',sans-serif;}
+.lang-tgl{display:flex;background:rgba(255,255,255,0.12);border-radius:100px;overflow:hidden;border:1px solid rgba(255,255,255,0.2);}
+.lb{padding:5px 14px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);cursor:pointer;border:none;background:transparent;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.lb.active{background:var(--gold);color:var(--deep);}
 
-/* ===== LANG BAR ===== */
-.sv-lang-bar{display:flex;justify-content:flex-end;padding:16px 32px 0;gap:4px;}
-.sv-lang-btn{
-  font-size:11px;letter-spacing:.1em;font-weight:500;
-  padding:5px 14px;border-radius:4px;border:.5px solid rgba(255,255,255,0.1);
-  cursor:pointer;background:transparent;color:rgba(240,236,228,0.55);transition:all .18s;
-}
-.sv-lang-btn.on{background:rgba(200,169,110,0.15);border-color:#c8a96e;color:#c8a96e;}
-.sv-lang-btn:hover:not(.on){color:#f0ece4;border-color:rgba(255,255,255,0.2);}
+/* HERO */
+.hero{background:linear-gradient(135deg,#f5f0ea 0%,#ede8f5 55%,#f0ece8 100%);padding:70px 40px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:rgba(124,111,160,0.06);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-60px;left:-40px;width:280px;height:280px;border-radius:50%;background:rgba(201,168,76,0.05);pointer-events:none;}
+.hero-inner{max-width:720px;margin:0 auto;position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(58,45,140,0.08);color:var(--violet);font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1px solid rgba(58,45,140,0.18);margin-bottom:24px;}
+.badge-dot{width:7px;height:7px;background:#4caf7d;border-radius:50%;animation:dotPulse 2.4s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{opacity:0.5;transform:scale(0.8);box-shadow:0 0 0 0 rgba(76,175,125,0.5);}50%{opacity:1;transform:scale(1.3);box-shadow:0 0 0 7px rgba(76,175,125,0);}}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,62px);font-weight:300;line-height:1.05;color:var(--deep);margin-bottom:18px;}
+.hero-title em{font-style:italic;color:var(--violet);}
+.hero-sub{font-size:16px;color:var(--stone);line-height:1.8;max-width:580px;margin:0 auto;}
 
-/* ===== HERO ===== */
-.sv-hero{position:relative;padding:60px 32px 48px;text-align:center;overflow:hidden;}
-.sv-hero::before{
-  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
-  width:700px;height:500px;
-  background:radial-gradient(ellipse,rgba(200,169,110,0.05) 0%,transparent 70%);
-  pointer-events:none;
-}
-.sv-eyebrow{
-  font-size:10px;letter-spacing:.28em;text-transform:uppercase;
-  color:#c8a96e;margin-bottom:18px;
-  display:flex;align-items:center;justify-content:center;gap:12px;font-weight:500;
-}
-.sv-eyebrow::before,.sv-eyebrow::after{content:'';width:36px;height:.5px;background:#c8a96e;opacity:.4;}
-.sv-h1{
-  font-size:clamp(38px,5.5vw,66px);font-weight:300;line-height:1.06;
-  color:#f0ece4;margin-bottom:14px;
-}
-.sv-h1 em{font-style:italic;color:#c8a96e;}
-.sv-hero-sub{
-  font-size:14px;color:rgba(240,236,228,0.55);
-  max-width:460px;margin:0 auto;line-height:1.8;font-weight:300;
-}
+/* CATEGORY NAV */
+.cat-nav{background:white;padding:20px 40px;border-bottom:1px solid var(--fog);position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(58,45,140,0.06);}
+.cat-nav-inner{max-width:1100px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.cat-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:100px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--fog);background:var(--ash);color:var(--stone);text-decoration:none;transition:all .2s;}
+.cat-pill:hover,.cat-pill.active{background:var(--violet);color:white;border-color:var(--violet);}
 
-/* ===== SECTION LABELS ===== */
-.sv-section{padding:0 32px 12px;max-width:1080px;margin:40px auto 0;}
-.sv-section-label{
-  display:flex;align-items:center;gap:14px;
-  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
-  color:rgba(240,236,228,0.4);font-weight:500;margin-bottom:20px;
-}
-.sv-section-label::after{content:'';flex:1;height:.5px;background:rgba(255,255,255,0.07);}
+/* SECTION LAYOUT */
+.services-page{max-width:1100px;margin:0 auto;padding:60px 40px;}
+.cat-section{margin-bottom:72px;scroll-margin-top:100px;}
+.cat-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;padding-bottom:18px;border-bottom:1px solid var(--fog);}
+.cat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.cat-name{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,34px);font-weight:300;color:var(--deep);}
+.cat-name em{font-style:italic;color:var(--vm);}
+.cat-desc{font-size:14px;color:var(--stone);margin-top:4px;line-height:1.6;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.svc-card{background:white;border-radius:var(--rl);padding:26px;border:1px solid var(--fog);transition:transform .22s,box-shadow .22s,border-color .22s;cursor:pointer;position:relative;overflow:hidden;}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 var(--rl) var(--rl);opacity:0;transition:opacity .22s;}
+.svc-card:hover{transform:translateY(-4px);}
+.svc-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--deep);margin-bottom:8px;}
+.svc-desc{font-size:13px;color:var(--stone);line-height:1.65;margin-bottom:16px;}
+.svc-cta{font-size:12px;font-weight:500;text-decoration:none;letter-spacing:0.03em;display:inline-flex;align-items:center;gap:4px;}
 
-/* ===== SERVICE GRID ===== */
-.sv-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:10px;max-width:1080px;margin:0 auto;padding:0 32px;
-}
+/* Category color themes */
+.c1 .cat-icon{background:#e8e4f2;} .c1 .svc-card:hover{border-color:#7c6fa0;box-shadow:0 10px 30px rgba(124,111,160,0.15);} .c1 .svc-card::after{background:#7c6fa0;} .c1 .svc-card:hover::after{opacity:1;} .c1 .svc-cta{color:#3a2d8c;}
+.c2 .cat-icon{background:#e4e6f5;} .c2 .svc-card:hover{border-color:#3a2d8c;box-shadow:0 10px 30px rgba(58,45,140,0.15);} .c2 .svc-card::after{background:#3a2d8c;} .c2 .svc-card:hover::after{opacity:1;} .c2 .svc-cta{color:#3a2d8c;}
+.c3 .cat-icon{background:#fdf4e0;} .c3 .svc-card:hover{border-color:#c9a84c;box-shadow:0 10px 30px rgba(201,168,76,0.15);} .c3 .svc-card::after{background:#c9a84c;} .c3 .svc-card:hover::after{opacity:1;} .c3 .svc-cta{color:#854F0B;}
+.c4 .cat-icon{background:#faeeda;} .c4 .svc-card:hover{border-color:#BA7517;box-shadow:0 10px 30px rgba(186,117,23,0.15);} .c4 .svc-card::after{background:#BA7517;} .c4 .svc-card:hover::after{opacity:1;} .c4 .svc-cta{color:#854F0B;}
+.c5 .cat-icon{background:#e0ebe4;} .c5 .svc-card:hover{border-color:#5c7a6a;box-shadow:0 10px 30px rgba(92,122,106,0.15);} .c5 .svc-card::after{background:#5c7a6a;} .c5 .svc-card:hover::after{opacity:1;} .c5 .svc-cta{color:#5c7a6a;}
+.c6 .cat-icon{background:#fbeaf0;} .c6 .svc-card:hover{border-color:#a06070;box-shadow:0 10px 30px rgba(160,96,112,0.15);} .c6 .svc-card::after{background:#a06070;} .c6 .svc-card:hover::after{opacity:1;} .c6 .svc-cta{color:#72243E;}
+.c7 .cat-icon{background:#e8f0f8;} .c7 .svc-card:hover{border-color:#185FA5;box-shadow:0 10px 30px rgba(24,95,165,0.15);} .c7 .svc-card::after{background:#185FA5;} .c7 .svc-card:hover::after{opacity:1;} .c7 .svc-cta{color:#0C447C;}
+.c8 .cat-icon{background:#fef3e8;} .c8 .svc-card:hover{border-color:#D85A30;box-shadow:0 10px 30px rgba(216,90,48,0.15);} .c8 .svc-card::after{background:#D85A30;} .c8 .svc-card:hover::after{opacity:1;} .c8 .svc-cta{color:#993C1D;}
 
-/* ===== SERVICE CARD ===== */
-.sv-card{
-  background:#13131c;border:.5px solid rgba(255,255,255,0.07);
-  border-radius:14px;overflow:hidden;cursor:pointer;
-  transition:border-color .3s, transform .3s;
-  position:relative;
-}
-.sv-card:hover{border-color:rgba(200,169,110,0.2);transform:translateY(-2px);}
-.sv-card.open{border-color:rgba(200,169,110,0.45);transform:translateY(-2px);}
-.sv-card.open::before{
-  content:'';position:absolute;inset:0;border-radius:14px;
-  background:radial-gradient(ellipse at 50% 0%,rgba(200,169,110,0.04) 0%,transparent 70%);
-  pointer-events:none;z-index:0;
-}
+/* CTA BOTTOM */
+.cta-section{background:var(--vp);padding:70px 40px;text-align:center;}
+.cta-inner{max-width:600px;margin:0 auto;}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,48px);font-weight:300;color:var(--deep);margin-bottom:14px;line-height:1.1;}
+.cta-title em{font-style:italic;color:var(--violet);}
+.cta-body{font-size:15px;color:var(--stone);margin-bottom:30px;line-height:1.75;}
+.btn-v{display:inline-block;background:var(--violet);color:white;font-size:14px;font-weight:500;padding:14px 32px;border-radius:100px;text-decoration:none;transition:opacity .2s,transform .15s;}
+.btn-v:hover{opacity:.88;transform:translateY(-2px);}
 
-/* Card collapsed */
-.sv-card-front{padding:20px 18px 18px;position:relative;z-index:1;}
-.sv-card-icon-wrap{
-  width:40px;height:40px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;margin-bottom:14px;
-  background:rgba(255,255,255,0.04);
-  border:.5px solid rgba(255,255,255,0.06);
-}
-.sv-card-name{
-  font-size:18px;font-weight:400;color:#f0ece4;
-  margin-bottom:6px;line-height:1.15;
-}
-.sv-card-teaser{
-  font-size:11px;color:rgba(240,236,228,0.45);
-  line-height:1.6;margin-bottom:16px;
-}
-.sv-card-toggle{
-  display:flex;align-items:center;gap:7px;
-  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
-  color:rgba(200,169,110,0.65);background:none;border:none;cursor:pointer;
-  padding:0;transition:color .2s;
-}
-.sv-card-toggle:hover{color:#c8a96e;}
-.sv-toggle-circle{
-  width:18px;height:18px;border-radius:50%;
-  border:.5px solid rgba(200,169,110,0.35);
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:300;color:rgba(200,169,110,0.65);
-  transition:all .3s;flex-shrink:0;
-}
-.sv-card.open .sv-toggle-circle{
-  background:#c8a96e;border-color:#c8a96e;
-  color:#09090e;transform:rotate(45deg);
-}
-
-/* Card expanded */
-.sv-card-back{
-  max-height:0;overflow:hidden;opacity:0;
-  transition:max-height .5s cubic-bezier(.16,1,.3,1), opacity .4s ease;
-  position:relative;z-index:1;
-}
-.sv-card.open .sv-card-back{max-height:500px;opacity:1;}
-.sv-card-back-inner{
-  padding:0 18px 20px;
-  border-top:.5px solid rgba(255,255,255,0.06);
-  padding-top:16px;
-}
-.sv-exp-eyebrow{
-  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
-  color:#c8a96e;margin-bottom:8px;font-weight:500;
-}
-.sv-exp-title{
-  font-size:15px;font-weight:400;color:#f0ece4;
-  margin-bottom:10px;line-height:1.3;
-}
-.sv-exp-text{
-  font-size:12px;color:rgba(240,236,228,0.6);
-  line-height:1.75;margin-bottom:14px;
-}
-.sv-exp-features{margin-bottom:16px;}
-.sv-exp-feat{
-  display:flex;gap:8px;align-items:flex-start;
-  padding:4px 0;font-size:11px;color:rgba(240,236,228,0.55);
-  line-height:1.5;
-  border-bottom:.5px solid rgba(255,255,255,0.04);
-}
-.sv-exp-feat:last-child{border-bottom:none;}
-.sv-exp-dot{
-  width:4px;height:4px;border-radius:50%;background:#c8a96e;
-  flex-shrink:0;margin-top:5px;
-}
-.sv-exp-cta{
-  display:flex;align-items:center;justify-content:center;gap:6px;width:100%;
-  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
-  color:#c8a96e;text-decoration:none;
-  border:.5px solid rgba(200,169,110,.3);padding:9px 14px;border-radius:4px;
-  background:rgba(200,169,110,.07);transition:all .22s;
-}
-.sv-exp-cta:hover{background:rgba(200,169,110,.18);border-color:#c8a96e;color:#f0ece4;}
-.sv-exp-cta-arr{transition:transform .18s;display:inline-block;}
-.sv-exp-cta:hover .sv-exp-cta-arr{transform:translateX(3px);}
-
-/* ===== PRODUCTS SECTION ===== */
-.sv-prod-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:10px;max-width:1080px;margin:0 auto;padding:0 32px 60px;
-}
-.sv-prod-card{
-  background:#13131c;border:.5px solid rgba(255,255,255,0.07);
-  border-radius:14px;padding:22px 20px;
-  display:flex;flex-direction:column;gap:10px;
-  transition:border-color .25s, transform .25s;
-}
-.sv-prod-card:hover{border-color:rgba(200,169,110,0.2);transform:translateY(-2px);}
-.sv-prod-top{display:flex;align-items:center;gap:12px;}
-.sv-prod-icon{
-  width:40px;height:40px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;font-size:20px;
-  background:rgba(255,255,255,0.04);border:.5px solid rgba(255,255,255,0.06);
-  flex-shrink:0;
-}
-.sv-prod-name{font-size:20px;font-weight:400;color:#f0ece4;line-height:1.1;}
-.sv-prod-desc{font-size:12px;color:rgba(240,236,228,0.5);line-height:1.65;flex:1;}
-.sv-prod-link{
-  display:inline-flex;align-items:center;gap:6px;align-self:flex-start;
-  font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
-  color:#c8a96e;text-decoration:none;
-  border:.5px solid rgba(200,169,110,.3);padding:8px 14px;border-radius:4px;
-  background:rgba(200,169,110,.07);transition:all .22s;margin-top:4px;
-}
-.sv-prod-link:hover{background:rgba(200,169,110,.18);border-color:#c8a96e;color:#f0ece4;}
-
-/* ===== DIVIDER ===== */
-.sv-divider{
-  max-width:1080px;margin:32px auto 0;padding:0 32px;
-}
-.sv-divider hr{border:none;border-top:.5px solid rgba(255,255,255,0.07);}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:640px){
-  .sv-hero{padding:52px 18px 36px;}
-  .sv-section{padding:0 16px 10px;}
-  .sv-grid{padding:0 16px;grid-template-columns:1fr;}
-  .sv-prod-grid{padding:0 16px 48px;grid-template-columns:1fr;}
-  .sv-divider{padding:0 16px;}
-  .sv-lang-bar{padding:12px 18px 0;}
-}
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
 </style>
 </head>
 <body>
-<div id="sv-root">
 
-  <!-- LANG -->
-  <div class="sv-lang-bar">
-    <button class="sv-lang-btn on" data-lang="es" onclick="svLang('es')">ES</button>
-    <button class="sv-lang-btn"   data-lang="en" onclick="svLang('en')">EN</button>
+<div class="lang-bar">
+  <span class="lang-note" data-en="Mistika operates in 6 languages" data-es="Mistika opera en 6 idiomas">Mistika operates in 6 languages</span>
+  <div class="lang-tgl">
+    <button class="lb active" onclick="setLang('en')">EN</button>
+    <button class="lb" onclick="setLang('es')">ES</button>
   </div>
+</div>
 
-  <!-- HERO -->
-  <div class="sv-hero">
-    <div class="sv-eyebrow"
-         data-es="Mistika · Guía de Servicios"
-         data-en="Mistika · Services Guide">Mistika · Guía de Servicios</div>
-    <h1 class="sv-h1"
-        data-es="Descubre Nuestros<br><em>Caminos de Guía</em>"
-        data-en="Discover Our<br><em>Paths of Guidance</em>">
-      Descubre Nuestros<br><em>Caminos de Guía</em>
-    </h1>
-    <p class="sv-hero-sub"
-       data-es="Cada práctica espiritual abre una puerta diferente. Explora, aprende qué resuena contigo, y conecta con el especialista ideal."
-       data-en="Each spiritual practice opens a different door. Explore, discover what resonates with you, and connect with the right specialist.">
-      Cada práctica espiritual abre una puerta diferente. Explora, aprende qué resuena contigo, y conecta con el especialista ideal.
-    </p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="badge-dot"></span><span data-en="Conscious guidance for your journey" data-es="Guía consciente para tu camino">Conscious guidance for your journey</span></div>
+    <h1 class="hero-title" data-en="Every service,<br><em>one intention:</em><br>your clarity" data-es="Cada servicio,<br><em>una intención:</em><br>tu claridad">Every service,<br><em>one intention:</em><br>your clarity</h1>
+    <p class="hero-sub" data-en="At Mistika, we offer a curated range of spiritual services delivered by carefully selected guides. Each modality is a doorway — choose the one that resonates with where you are right now." data-es="En Mistika ofrecemos una selección de servicios espirituales entregados por guías cuidadosamente elegidos. Cada modalidad es una puerta — elige la que resuene con donde estás ahora mismo.">At Mistika, we offer a curated range of spiritual services delivered by carefully selected guides. Each modality is a doorway — choose the one that resonates with where you are right now.</p>
   </div>
+</section>
 
-  <!-- ===== SECTION: SERVICIOS FORMATIVOS ===== -->
-  <div class="sv-section">
-    <div class="sv-section-label"
-         data-es="Prácticas Espirituales — haz clic para explorar cada una"
-         data-en="Spiritual Practices — click to explore each one">
-      Prácticas Espirituales — haz clic para explorar cada una
+<!-- CATEGORY NAV -->
+<nav class="cat-nav">
+  <div class="cat-nav-inner">
+    <a href="#divination" class="cat-pill" data-en="Divination" data-es="Adivinación">Divination</a>
+    <a href="#records" class="cat-pill" data-en="Records & Consciousness" data-es="Registros y Conciencia">Records & Consciousness</a>
+    <a href="#coaching" class="cat-pill" data-en="Spiritual Coaching" data-es="Coaching Espiritual">Spiritual Coaching</a>
+    <a href="#numerology" class="cat-pill" data-en="Numerology" data-es="Numerología">Numerology</a>
+    <a href="#healing" class="cat-pill" data-en="Energy Healing" data-es="Sanación Energética">Energy Healing</a>
+    <a href="#mediumship" class="cat-pill" data-en="Mediumship" data-es="Mediumnidad">Mediumship</a>
+    <a href="#cleansing" class="cat-pill" data-en="Cleansing & Protection" data-es="Limpieza y Protección">Cleansing & Protection</a>
+    <a href="#rituals" class="cat-pill" data-en="Rituals & Manifestation" data-es="Rituales y Manifestación">Rituals & Manifestation</a>
+  </div>
+</nav>
+
+<div class="services-page">
+
+<!-- 1. DIVINATION -->
+<section class="cat-section c1 reveal" id="divination">
+  <div class="cat-header">
+    <div class="cat-icon">🔮</div>
+    <div>
+      <div class="cat-name" data-en="Divination — <em>Insight & Guidance</em>" data-es="Adivinación — <em>Claridad y Guía</em>">Divination — <em>Insight & Guidance</em></div>
+      <div class="cat-desc" data-en="Ancient tools, timeless wisdom. Our diviners help you access the guidance already within you — reflected through sacred symbols, cards, and time-tested systems." data-es="Herramientas ancestrales, sabiduría atemporal. Nuestros intuitivos te ayudan a acceder a la guía que ya está dentro de ti.">Ancient tools, timeless wisdom. Our diviners help you access the guidance already within you — reflected through sacred symbols, cards, and time-tested systems.</div>
     </div>
   </div>
-
-  <div class="sv-grid" id="svGrid">
-    <!-- Cards rendered by JS -->
-  </div>
-
-  <!-- ===== DIVIDER ===== -->
-  <div class="sv-divider"><hr></div>
-
-  <!-- ===== SECTION: PRODUCTOS Y MEMBRESÍAS ===== -->
-  <div class="sv-section" style="margin-top:36px;">
-    <div class="sv-section-label"
-         data-es="Productos y Membresías"
-         data-en="Products & Memberships">
-      Productos y Membresías
+  <div class="services-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Tarot Reading" data-es="Lectura de Tarot">Tarot Reading</div>
+      <div class="svc-desc" data-en="A deeply intuitive session using the ancient language of Tarot to illuminate your current path, reveal hidden influences, and offer guidance for your most important decisions and transitions." data-es="Una sesión profundamente intuitiva que usa el lenguaje del Tarot para iluminar tu camino actual, revelar influencias ocultas y ofrecer orientación para tus decisiones más importantes.">A deeply intuitive session using the ancient language of Tarot to illuminate your current path, reveal hidden influences, and offer guidance for your most important decisions and transitions.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Oracle Cards" data-es="Cartas Oráculo">Oracle Cards</div>
+      <div class="svc-desc" data-en="Through the gentle wisdom of Oracle cards, your guide will help you receive messages that feel aligned, comforting, and empowering — perfect for those seeking soft, loving guidance." data-es="A través de la suave sabiduría de las cartas oráculo, tu guía te ayudará a recibir mensajes alineados, reconfortantes y empoderadores.">Through the gentle wisdom of Oracle cards, your guide will help you receive messages that feel aligned, comforting, and empowering — perfect for those seeking soft, loving guidance.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d3">
+      <div class="svc-name" data-en="Pendulum Reading" data-es="Lectura de Péndulo">Pendulum Reading</div>
+      <div class="svc-desc" data-en="The pendulum speaks the language of energy. This focused session is ideal for yes/no clarity, energy assessment, and accessing subconscious truths your analytical mind may overlook." data-es="El péndulo habla el lenguaje de la energía. Esta sesión es ideal para claridad de sí/no y acceder a verdades subconscientes.">The pendulum speaks the language of energy. This focused session is ideal for yes/no clarity, energy assessment, and accessing subconscious truths your analytical mind may overlook.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Rune Reading" data-es="Lectura de Runas">Rune Reading</div>
+      <div class="svc-desc" data-en="Drawing from the ancient Norse tradition, rune readings offer powerful archetypal messages about your current cycles, challenges, and the energies at work in your life right now." data-es="Desde la tradición nórdica ancestral, las runas ofrecen poderosos mensajes arquetípicos sobre tus ciclos y desafíos actuales.">Drawing from the ancient Norse tradition, rune readings offer powerful archetypal messages about your current cycles, challenges, and the energies at work in your life right now.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="I Ching" data-es="I Ching">I Ching</div>
+      <div class="svc-desc" data-en="One of the oldest wisdom systems in the world, the I Ching offers profound insight into the natural flow of change. Your guide will help you interpret its teachings for your present situation." data-es="Uno de los sistemas de sabiduría más antiguos del mundo, el I Ching ofrece una profunda perspectiva sobre el flujo natural del cambio.">One of the oldest wisdom systems in the world, the I Ching offers profound insight into the natural flow of change. Your guide will help you interpret its teachings for your present situation.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
     </div>
   </div>
+</section>
 
-  <div class="sv-prod-grid" id="svProdGrid">
-    <!-- Rendered by JS -->
+<!-- 2. RECORDS & CONSCIOUSNESS -->
+<section class="cat-section c2 reveal" id="records">
+  <div class="cat-header">
+    <div class="cat-icon">📜</div>
+    <div>
+      <div class="cat-name" data-en="Records & <em>Consciousness</em>" data-es="Registros y <em>Conciencia</em>">Records & <em>Consciousness</em></div>
+      <div class="cat-desc" data-en="Journey beyond time to access the deeper architecture of your soul. These sessions offer transformative insight into who you truly are and why you are here." data-es="Viaja más allá del tiempo para acceder a la arquitectura más profunda de tu alma. Estas sesiones ofrecen una visión transformadora de quién eres realmente.">Journey beyond time to access the deeper architecture of your soul. These sessions offer transformative insight into who you truly are and why you are here.</div>
+    </div>
   </div>
+  <div class="services-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Akashic Records Reading" data-es="Lectura de Registros Akáshicos">Akashic Records Reading</div>
+      <div class="svc-desc" data-en="The Akashic Records hold the complete energetic history of your soul. In this sacred session, your guide will access your personal records to help you understand recurring patterns, soul gifts, and the deeper purpose behind your experiences." data-es="Los Registros Akáshicos contienen la historia energética completa de tu alma. Tu guía accederá a tus registros para ayudarte a comprender patrones recurrentes y el propósito profundo de tus experiencias.">The Akashic Records hold the complete energetic history of your soul. In this sacred session, your guide will access your personal records to help you understand recurring patterns, soul gifts, and the deeper purpose behind your experiences.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Past Life Reading" data-es="Lectura de Vidas Pasadas">Past Life Reading</div>
+      <div class="svc-desc" data-en="Explore the lives your soul has lived before this one. Past life readings can illuminate the root of current fears, relationships, and recurring themes — bringing healing, understanding, and deep liberation." data-es="Explora las vidas que tu alma ha vivido antes. Las lecturas de vidas pasadas pueden iluminar la raíz de miedos actuales, relaciones y temas recurrentes.">Explore the lives your soul has lived before this one. Past life readings can illuminate the root of current fears, relationships, and recurring themes — bringing healing, understanding, and deep liberation.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d3">
+      <div class="svc-name" data-en="Soul Contract Reading" data-es="Lectura de Contrato del Alma">Soul Contract Reading</div>
+      <div class="svc-desc" data-en="Before you arrived in this lifetime, your soul made agreements about lessons, relationships, and growth. This session helps you understand those soul-level commitments and how to honor or renegotiate them consciously." data-es="Antes de llegar a esta vida, tu alma hizo acuerdos sobre lecciones y relaciones. Esta sesión te ayuda a entender esos compromisos a nivel del alma.">Before you arrived in this lifetime, your soul made agreements about lessons, relationships, and growth. This session helps you understand those soul-level commitments and how to honor or renegotiate them consciously.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 3. SPIRITUAL COACHING -->
+<section class="cat-section c3 reveal" id="coaching">
+  <div class="cat-header">
+    <div class="cat-icon">🧠</div>
+    <div>
+      <div class="cat-name" data-en="Spiritual & <em>Intuitive Coaching</em>" data-es="Coaching Espiritual e <em>Intuitivo</em>">Spiritual & <em>Intuitive Coaching</em></div>
+      <div class="cat-desc" data-en="Where inner wisdom meets practical action. Our coaches don't tell you what to do — they help you remember what you already know, and build the clarity to act on it." data-es="Donde la sabiduría interior se encuentra con la acción práctica. Nuestros coaches no te dicen qué hacer — te ayudan a recordar lo que ya sabes.">Where inner wisdom meets practical action. Our coaches don't tell you what to do — they help you remember what you already know, and build the clarity to act on it.</div>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Spiritual Coaching" data-es="Coaching Espiritual">Spiritual Coaching</div>
+      <div class="svc-desc" data-en="Integrate your spiritual beliefs with your everyday life. Your coach will support you in developing practices, navigating transitions, and aligning your outer world with the values and vision of your soul." data-es="Integra tus creencias espirituales con tu vida cotidiana. Tu coach te apoyará en el desarrollo de prácticas y en alinear tu mundo exterior con los valores de tu alma.">Integrate your spiritual beliefs with your everyday life. Your coach will support you in developing practices, navigating transitions, and aligning your outer world with the values and vision of your soul.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Intuitive Coaching" data-es="Coaching Intuitivo">Intuitive Coaching</div>
+      <div class="svc-desc" data-en="Your intuitive coach combines energetic perception with coaching techniques to help you break through blocks, make aligned decisions, and reconnect with your inner compass when it feels silent." data-es="Tu coach intuitivo combina percepción energética con técnicas de coaching para ayudarte a superar bloqueos y reconectar con tu brújula interior.">Your intuitive coach combines energetic perception with coaching techniques to help you break through blocks, make aligned decisions, and reconnect with your inner compass when it feels silent.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d3">
+      <div class="svc-name" data-en="Life Purpose Guidance" data-es="Guía de Propósito de Vida">Life Purpose Guidance</div>
+      <div class="svc-desc" data-en="Feeling lost, unfulfilled, or at a crossroads? This session is designed to help you uncover your authentic calling, understand your soul's unique gifts, and take meaningful steps toward a life that truly feels like yours." data-es="¿Te sientes perdido o en una encrucijada? Esta sesión te ayuda a descubrir tu llamado auténtico y dar pasos significativos hacia una vida que verdaderamente se sienta tuya.">Feeling lost, unfulfilled, or at a crossroads? This session is designed to help you uncover your authentic calling, understand your soul's unique gifts, and take meaningful steps toward a life that truly feels like yours.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Shadow Work" data-es="Trabajo de Sombra">Shadow Work</div>
+      <div class="svc-desc" data-en="The parts of ourselves we've hidden hold our greatest power. Shadow work is a courageous, compassionate process of integrating the aspects of yourself you've rejected — and discovering the freedom on the other side." data-es="Las partes de nosotros mismos que hemos ocultado contienen nuestro mayor poder. El trabajo de sombra es un proceso valiente de integrar los aspectos que has rechazado.">The parts of ourselves we've hidden hold our greatest power. Shadow work is a courageous, compassionate process of integrating the aspects of yourself you've rejected — and discovering the freedom on the other side.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Manifestation Coaching" data-es="Coaching de Manifestación">Manifestation Coaching</div>
+      <div class="svc-desc" data-en="Manifestation is not wishful thinking — it's conscious co-creation. Your coach will help you identify and clear limiting beliefs, align your energy with your intentions, and build a practical system for calling in what you truly desire." data-es="La manifestación no es desear — es cocreación consciente. Tu coach te ayudará a identificar creencias limitantes y alinear tu energía con tus intenciones.">Manifestation is not wishful thinking — it's conscious co-creation. Your coach will help you identify and clear limiting beliefs, align your energy with your intentions, and build a practical system for calling in what you truly desire.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 4. NUMEROLOGY -->
+<section class="cat-section c4 reveal" id="numerology">
+  <div class="cat-header">
+    <div class="cat-icon">🔢</div>
+    <div>
+      <div class="cat-name" data-en="Numerology — <em>The Language of Numbers</em>" data-es="Numerología — <em>El Lenguaje de los Números</em>">Numerology — <em>The Language of Numbers</em></div>
+      <div class="cat-desc" data-en="Numbers are not random — they are the universe's most precise language. Numerology decodes the vibrations embedded in your birth date and name to reveal the blueprint of your life." data-es="Los números no son aleatorios — son el lenguaje más preciso del universo. La numerología decodifica las vibraciones en tu fecha de nacimiento y nombre.">Numbers are not random — they are the universe's most precise language. Numerology decodes the vibrations embedded in your birth date and name to reveal the blueprint of your life.</div>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Life Path Analysis" data-es="Análisis del Camino de Vida">Life Path Analysis</div>
+      <div class="svc-desc" data-en="Your Life Path number is the core vibration of your existence. This reading reveals your natural strengths, karmic lessons, and the overarching themes your soul chose to explore in this lifetime." data-es="Tu número de Camino de Vida es la vibración central de tu existencia. Esta lectura revela tus fortalezas naturales y las lecciones kármicas que tu alma eligió explorar.">Your Life Path number is the core vibration of your existence. This reading reveals your natural strengths, karmic lessons, and the overarching themes your soul chose to explore in this lifetime.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Name & Destiny Reading" data-es="Lectura de Nombre y Destino">Name & Destiny Reading</div>
+      <div class="svc-desc" data-en="Your name carries a specific vibration that shapes how you move through the world. This session explores the energetic meaning of your full name and what it reveals about your destiny, expression, and soul's desire." data-es="Tu nombre lleva una vibración específica. Esta sesión explora el significado energético de tu nombre completo y lo que revela sobre tu destino y el deseo de tu alma.">Your name carries a specific vibration that shapes how you move through the world. This session explores the energetic meaning of your full name and what it reveals about your destiny, expression, and soul's desire.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d3">
+      <div class="svc-name" data-en="Personal Year Forecast" data-es="Pronóstico del Año Personal">Personal Year Forecast</div>
+      <div class="svc-desc" data-en="Every year carries a unique energetic theme determined by your personal cycle. This reading reveals the opportunities, challenges, and key focuses of your current year so you can move through it with intention and grace." data-es="Cada año lleva un tema energético único. Esta lectura revela las oportunidades y desafíos de tu año actual para que puedas navegarlo con intención.">Every year carries a unique energetic theme determined by your personal cycle. This reading reveals the opportunities, challenges, and key focuses of your current year so you can move through it with intention and grace.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 5. ENERGY HEALING -->
+<section class="cat-section c5 reveal" id="healing">
+  <div class="cat-header">
+    <div class="cat-icon">✨</div>
+    <div>
+      <div class="cat-name" data-en="Energy <em>Healing</em>" data-es="Sanación <em>Energética</em>">Energy <em>Healing</em></div>
+      <div class="cat-desc" data-en="Your energy body holds everything your physical body experiences. These sessions work at the energetic level to release stagnation, restore balance, and support your natural capacity for healing and wholeness." data-es="Tu cuerpo energético sostiene todo lo que tu cuerpo físico experimenta. Estas sesiones trabajan a nivel energético para liberar estancamientos y restaurar el equilibrio.">Your energy body holds everything your physical body experiences. These sessions work at the energetic level to release stagnation, restore balance, and support your natural capacity for healing and wholeness.</div>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Reiki" data-es="Reiki">Reiki</div>
+      <div class="svc-desc" data-en="Reiki is a gentle, non-invasive energy healing modality that channels universal life force to promote deep relaxation, emotional release, and holistic wellbeing. Sessions are available in-person or at a distance with equal effectiveness." data-es="El Reiki es una modalidad de sanación energética suave que canaliza la fuerza vital universal para promover relajación profunda y bienestar holístico.">Reiki is a gentle, non-invasive energy healing modality that channels universal life force to promote deep relaxation, emotional release, and holistic wellbeing. Sessions are available in-person or at a distance with equal effectiveness.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Chakra Balancing" data-es="Equilibrio de Chakras">Chakra Balancing</div>
+      <div class="svc-desc" data-en="When your chakras are out of alignment, you may feel stuck, depleted, or disconnected. This session identifies blockages in your energy centers and works to restore their natural, harmonious flow." data-es="Cuando tus chakras están desalineados puedes sentirte estancado o desconectado. Esta sesión identifica bloqueos y restaura su flujo natural y armonioso.">When your chakras are out of alignment, you may feel stuck, depleted, or disconnected. This session identifies blockages in your energy centers and works to restore their natural, harmonious flow.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d3">
+      <div class="svc-name" data-en="Energy Healing" data-es="Sanación Energética">Energy Healing</div>
+      <div class="svc-desc" data-en="A personalized session where your practitioner uses intuitive awareness and energetic techniques to address your specific needs — whether emotional, physical, or spiritual. Each session is unique and tailored to you." data-es="Una sesión personalizada donde tu practicante usa conciencia intuitiva y técnicas energéticas para atender tus necesidades específicas. Cada sesión es única y adaptada a ti.">A personalized session where your practitioner uses intuitive awareness and energetic techniques to address your specific needs — whether emotional, physical, or spiritual. Each session is unique and tailored to you.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Distance Healing" data-es="Sanación a Distancia">Distance Healing</div>
+      <div class="svc-desc" data-en="Energy transcends physical location. Distance healing sessions are just as powerful as in-person ones — your practitioner connects with your energy field remotely, sending healing and restoration wherever you are in the world." data-es="La energía trasciende la ubicación física. Las sesiones de sanación a distancia son igual de poderosas — tu practicante se conecta con tu campo energético de forma remota.">Energy transcends physical location. Distance healing sessions are just as powerful as in-person ones — your practitioner connects with your energy field remotely, sending healing and restoration wherever you are in the world.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 6. MEDIUMSHIP -->
+<section class="cat-section c6 reveal" id="mediumship">
+  <div class="cat-header">
+    <div class="cat-icon">👁️</div>
+    <div>
+      <div class="cat-name" data-en="Mediumship & <em>Connection</em>" data-es="Mediumnidad y <em>Conexión</em>">Mediumship & <em>Connection</em></div>
+      <div class="cat-desc" data-en="Love does not end with physical death. Our mediums create a sacred bridge between worlds — offering messages of healing, closure, and continuation for those who seek connection with those who have crossed over." data-es="El amor no termina con la muerte física. Nuestros médiums crean un puente sagrado entre mundos, ofreciendo mensajes de sanación y continuación.">Love does not end with physical death. Our mediums create a sacred bridge between worlds — offering messages of healing, closure, and continuation for those who seek connection with those who have crossed over.</div>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Medium Readings" data-es="Lecturas de Médium">Medium Readings</div>
+      <div class="svc-desc" data-en="In a medium reading, your guide serves as a clear channel to connect with loved ones, guides, and souls in spirit. These sessions are held with the highest intention of love, healing, and light — never fear." data-es="En una lectura de médium, tu guía sirve como canal claro para conectar con seres queridos y almas en espíritu. Siempre desde el amor, la sanación y la luz.">In a medium reading, your guide serves as a clear channel to connect with loved ones, guides, and souls in spirit. These sessions are held with the highest intention of love, healing, and light — never fear.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Spirit Communication" data-es="Comunicación con el Espíritu">Spirit Communication</div>
+      <div class="svc-desc" data-en="A focused session for receiving specific messages from the spirit world. Your medium will create the conditions for clear, loving communication that brings comfort, confirmation, and often unexpected moments of profound recognition." data-es="Una sesión enfocada para recibir mensajes específicos del mundo espiritual. Tu médium creará las condiciones para una comunicación clara y amorosa.">A focused session for receiving specific messages from the spirit world. Your medium will create the conditions for clear, loving communication that brings comfort, confirmation, and often unexpected moments of profound recognition.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d3">
+      <div class="svc-name" data-en="Ancestral Messages" data-es="Mensajes Ancestrales">Ancestral Messages</div>
+      <div class="svc-desc" data-en="Your ancestors walk with you, even if you cannot see them. This session opens a healing dialogue with your ancestral lineage — receiving their wisdom, blessings, and support as you navigate your present journey." data-es="Tus ancestros caminan contigo, aunque no puedas verlos. Esta sesión abre un diálogo sanador con tu linaje ancestral.">Your ancestors walk with you, even if you cannot see them. This session opens a healing dialogue with your ancestral lineage — receiving their wisdom, blessings, and support as you navigate your present journey.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Angel Channeling" data-es="Canalización Angelical">Angel Channeling</div>
+      <div class="svc-desc" data-en="Angels are beings of pure light whose only purpose is your highest good. In this session, your guide channels angelic guidance — bringing messages of love, reassurance, and divine direction for your path forward." data-es="Los ángeles son seres de luz pura cuyo único propósito es tu mayor bien. Tu guía canaliza mensajes angelicales de amor y dirección divina para tu camino.">Angels are beings of pure light whose only purpose is your highest good. In this session, your guide channels angelic guidance — bringing messages of love, reassurance, and divine direction for your path forward.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 7. CLEANSING & PROTECTION -->
+<section class="cat-section c7 reveal" id="cleansing">
+  <div class="cat-header">
+    <div class="cat-icon">🧿</div>
+    <div>
+      <div class="cat-name" data-en="Cleansing & <em>Protection</em>" data-es="Limpieza y <em>Protección</em>">Cleansing & <em>Protection</em></div>
+      <div class="cat-desc" data-en="Your energy field is constantly interacting with the world around you. These sessions help you release what doesn't belong to you, establish healthy energetic boundaries, and create a field of protection and light." data-es="Tu campo energético interactúa constantemente con el mundo. Estas sesiones te ayudan a liberar lo que no te pertenece y establecer límites energéticos saludables.">Your energy field is constantly interacting with the world around you. These sessions help you release what doesn't belong to you, establish healthy energetic boundaries, and create a field of protection and light.</div>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Energy Cleansing" data-es="Limpieza Energética">Energy Cleansing</div>
+      <div class="svc-desc" data-en="Over time, we accumulate dense energy from stress, difficult interactions, and unresolved emotions. An energy cleansing session clears this accumulated heaviness, leaving you feeling lighter, clearer, and more like yourself." data-es="Con el tiempo acumulamos energía densa del estrés e interacciones difíciles. Una limpieza energética elimina esta pesadez, dejándote más liviano y claro.">Over time, we accumulate dense energy from stress, difficult interactions, and unresolved emotions. An energy cleansing session clears this accumulated heaviness, leaving you feeling lighter, clearer, and more like yourself.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Aura Cleansing" data-es="Limpieza de Aura">Aura Cleansing</div>
+      <div class="svc-desc" data-en="Your aura is the luminous energy field surrounding your physical body. Aura cleansing removes tears, debris, and unwanted attachments from this field — restoring its natural vibrancy and strengthening your energetic immune system." data-es="Tu aura es el campo energético luminoso que rodea tu cuerpo físico. La limpieza de aura elimina desgastes y apegos no deseados, restaurando su vibración natural.">Your aura is the luminous energy field surrounding your physical body. Aura cleansing removes tears, debris, and unwanted attachments from this field — restoring its natural vibrancy and strengthening your energetic immune system.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d3">
+      <div class="svc-name" data-en="Cord Cutting" data-es="Corte de Cordones">Cord Cutting</div>
+      <div class="svc-desc" data-en="Energetic cords form between people through intense emotion, dependency, or unresolved connection. Cord cutting is a liberating practice that severs unhealthy energetic ties with compassion — freeing both parties to move forward in wholeness." data-es="Los cordones energéticos se forman entre personas a través de emociones intensas o conexiones no resueltas. El corte de cordones libera vínculos energéticos no saludables con compasión.">Energetic cords form between people through intense emotion, dependency, or unresolved connection. Cord cutting is a liberating practice that severs unhealthy energetic ties with compassion — freeing both parties to move forward in wholeness.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Protection Rituals" data-es="Rituales de Protección">Protection Rituals</div>
+      <div class="svc-desc" data-en="Create a sacred shield of light around yourself, your home, or your loved ones. Your guide will lead you through a personalized protection ritual using intention, sacred tools, and universal light to establish lasting energetic safety." data-es="Crea un escudo sagrado de luz a tu alrededor. Tu guía te llevará a través de un ritual de protección personalizado usando intención y luz universal.">Create a sacred shield of light around yourself, your home, or your loved ones. Your guide will lead you through a personalized protection ritual using intention, sacred tools, and universal light to establish lasting energetic safety.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+  </div>
+</section>
+
+<!-- 8. RITUALS & MANIFESTATION -->
+<section class="cat-section c8 reveal" id="rituals">
+  <div class="cat-header">
+    <div class="cat-icon">🔥</div>
+    <div>
+      <div class="cat-name" data-en="Rituals & <em>Manifestation</em>" data-es="Rituales y <em>Manifestación</em>">Rituals & <em>Manifestation</em></div>
+      <div class="cat-desc" data-en="Ritual is the art of making your intentions sacred. These sessions combine ancient ceremony with focused intention to open pathways, remove obstacles, and call in the life you are meant to live." data-es="El ritual es el arte de hacer sagradas tus intenciones. Estas sesiones combinan ceremonia ancestral con intención enfocada para abrir caminos y llamar la vida que mereces.">Ritual is the art of making your intentions sacred. These sessions combine ancient ceremony with focused intention to open pathways, remove obstacles, and call in the life you are meant to live.</div>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-name" data-en="Abundance Rituals" data-es="Rituales de Abundancia">Abundance Rituals</div>
+      <div class="svc-desc" data-en="Abundance is your natural state — and sometimes it needs to be reclaimed. Your guide will create a personalized ritual to clear scarcity programming, activate your abundance frequency, and align you with the flow of prosperity in all its forms." data-es="La abundancia es tu estado natural. Tu guía creará un ritual personalizado para limpiar la programación de escasez y activar tu frecuencia de abundancia en todas sus formas.">Abundance is your natural state — and sometimes it needs to be reclaimed. Your guide will create a personalized ritual to clear scarcity programming, activate your abundance frequency, and align you with the flow of prosperity in all its forms.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-name" data-en="Road Opening Rituals" data-es="Rituales de Abre Caminos">Road Opening Rituals</div>
+      <div class="svc-desc" data-en="When doors feel closed and progress feels blocked, road opening rituals work to dissolve obstacles, clear energetic crossroads, and invite new possibilities forward. A powerful ceremonial practice for those standing at a threshold, ready for what's next." data-es="Cuando las puertas se sienten cerradas, los rituales abre caminos trabajan para disolver obstáculos y abrir nuevas posibilidades. Una práctica ceremonial poderosa para quienes están en un umbral.">When doors feel closed and progress feels blocked, road opening rituals work to dissolve obstacles, clear energetic crossroads, and invite new possibilities forward. A powerful ceremonial practice for those standing at a threshold, ready for what's next.</div>
+      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+    </div>
+  </div>
+</section>
 
 </div>
 
+<!-- CTA BOTTOM -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <h2 class="cta-title" data-en="Not sure where to start?<br><em>Let us guide you.</em>" data-es="¿No sabes por dónde empezar?<br><em>Déjanos guiarte.</em>">Not sure where to start?<br><em>Let us guide you.</em></h2>
+    <p class="cta-body" data-en="Browse our specialists and find the guide whose energy, approach, and expertise resonate with where you are right now. Every journey begins with one step." data-es="Conoce a nuestros especialistas y encuentra al guía cuya energía y experiencia resuene con donde estás ahora. Todo camino comienza con un primer paso.">Browse our specialists and find the guide whose energy, approach, and expertise resonate with where you are right now. Every journey begins with one step.</p>
+    <a href="https://mistika.cloud/meet_our_specialists" class="btn-v" data-en="Meet our specialists →" data-es="Conoce a nuestros especialistas →">Meet our specialists →</a>
+  </div>
+</section>
+
 <script>
-/* ============================================================
-   SERVICE DATA — edita aquí los textos
-   Para cada servicio:
-   - icon: emoji que aparece en la tarjeta
-   - color: color del fondo del icono (rgba)
-   - specialists_url: link a la página de especialistas con filtro aplicado
-   ============================================================ */
-var SERVICES = [
-  {
-    icon:'🔢',color:'rgba(90,159,212,0.15)',
-    name_es:'Numerología',name_en:'Numerology',
-    teaser_es:'El lenguaje de los números como espejo del alma.',
-    teaser_en:'The language of numbers as a mirror of the soul.',
-    exp_title_es:'¿Qué es la Numerología?',exp_title_en:'What is Numerology?',
-    exp_text_es:'La numerología es el estudio del significado espiritual y energético de los números. A partir de tu nombre y fecha de nacimiento, revela tu camino de vida, talentos innatos y los ciclos de tiempo que influyen en tus decisiones.',
-    exp_text_en:'Numerology is the study of the spiritual and energetic meaning of numbers. Using your name and birth date, it reveals your life path, innate talents, and the time cycles that influence your decisions.',
-    features_es:'Tu número de camino de vida y lo que significa|Ciclos personales — cuándo actuar y cuándo esperar|Compatibilidad numérica en relaciones y negocios|Talentos ocultos y desafíos kármicos',
-    features_en:'Your life path number and what it means|Personal cycles — when to act and when to wait|Numerical compatibility in relationships and business|Hidden talents and karmic challenges',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  },
-  {
-    icon:'📜',color:'rgba(200,169,110,0.15)',
-    name_es:'Registros Akásicos',name_en:'Akashic Records',
-    teaser_es:'El archivo eterno de tu alma, accesible hoy.',
-    teaser_en:'The eternal archive of your soul, accessible today.',
-    exp_title_es:'¿Qué son los Registros Akásicos?',exp_title_en:'What are the Akashic Records?',
-    exp_text_es:'Los Registros Akásicos son un campo energético — llamado a veces "la biblioteca del alma" — donde se almacena toda la información de tus vidas y experiencias a través del tiempo. Un lector entrenado puede acceder a este campo para revelar patrones profundos, contratos del alma y el propósito de tu vida actual.',
-    exp_text_en:'The Akashic Records are an energetic field — sometimes called "the soul\'s library" — where all information from your lives and experiences across time is stored. A trained reader can access this field to reveal deep patterns, soul contracts, and the purpose of your current life.',
-    features_es:'Comprensión profunda de tu propósito de vida|Sanación de patrones repetitivos y bloqueos|Contratos del alma y relaciones kármicas|Mensajes de tu yo superior para el presente',
-    features_en:'Deep understanding of your life purpose|Healing of repetitive patterns and blocks|Soul contracts and karmic relationships|Messages from your higher self for the present',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  },
-  {
-    icon:'🧠',color:'rgba(139,127,212,0.15)',
-    name_es:'Coaching / NLP',name_en:'Coaching / NLP',
-    teaser_es:'Reprograma tu mente para crear la vida que deseas.',
-    teaser_en:'Reprogram your mind to create the life you desire.',
-    exp_title_es:'¿Qué es el Coaching con PNL?',exp_title_en:'What is Coaching with NLP?',
-    exp_text_es:'El Coaching con Programación Neurolingüística combina técnicas de mentoría consciente con herramientas para reprogramar patrones mentales y emocionales. Es un trabajo profundo de transformación que une la psicología moderna con la intuición espiritual.',
-    exp_text_en:'Coaching with Neuro-Linguistic Programming combines conscious mentoring techniques with tools to reprogram mental and emotional patterns. It is deep transformational work that unites modern psychology with spiritual intuition.',
-    features_es:'Identificación y reprogramación de creencias limitantes|Técnicas de visualización y anclaje para metas|Alineación entre propósito, valores y acciones|Herramientas prácticas para sostener el cambio',
-    features_en:'Identification and reprogramming of limiting beliefs|Visualization and anchoring techniques for goals|Alignment between purpose, values, and actions|Practical tools to sustain change',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  },
-  {
-    icon:'👁',color:'rgba(196,127,160,0.15)',
-    name_es:'Mediumidad',name_en:'Mediumship',
-    teaser_es:'Puentes de luz entre este mundo y el más allá.',
-    teaser_en:'Bridges of light between this world and beyond.',
-    exp_title_es:'¿Qué es la Mediumidad?',exp_title_en:'What is Mediumship?',
-    exp_text_es:'La mediumidad es la capacidad de algunos individuos para percibir y comunicarse con energías que han trascendido el plano físico. Una sesión de mediumnidad ofrece mensajes de consuelo, cierre y orientación provenientes de seres queridos que han partido.',
-    exp_text_en:'Mediumship is the ability of certain individuals to perceive and communicate with energies that have transcended the physical plane. A mediumship session offers messages of comfort, closure, and guidance from loved ones who have passed.',
-    features_es:'Conexión con seres queridos que han partido|Mensajes de consuelo y cierre emocional|Validaciones específicas que confirman la conexión|Orientación para el camino presente',
-    features_en:'Connection with loved ones who have passed|Messages of comfort and emotional closure|Specific validations that confirm the connection|Guidance for the present path',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  },
-  {
-    icon:'⭐',color:'rgba(90,159,212,0.15)',
-    name_es:'Carta Natal',name_en:'Natal Chart',
-    teaser_es:'Tu mapa cósmico personal al momento de nacer.',
-    teaser_en:'Your personal cosmic map at the moment of birth.',
-    exp_title_es:'¿Qué es la Carta Natal?',exp_title_en:'What is a Natal Chart?',
-    exp_text_es:'La carta natal es un mapa del cielo exactamente como se veía en el momento en que naciste. Captura la posición de los planetas, el sol, la luna y otros puntos astrológicos. Es el punto de partida de toda lectura astrológica y revela tu carácter, dones, desafíos y el timing de los grandes ciclos de tu vida.',
-    exp_text_en:'The natal chart is a map of the sky exactly as it appeared at the moment of your birth. It captures the position of the planets, sun, moon, and other astrological points. It is the starting point of all astrological reading and reveals your character, gifts, challenges, and the timing of the great cycles in your life.',
-    features_es:'Análisis de tu sol, luna y ascendente|Casas astrológicas y áreas de vida|Aspectos planetarios y su influencia|Mejores períodos para amor, trabajo y salud',
-    features_en:'Analysis of your sun, moon, and ascendant|Astrological houses and life areas|Planetary aspects and their influence|Best periods for love, work, and health',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  },
-  {
-    icon:'✨',color:'rgba(77,184,160,0.15)',
-    name_es:'Reiki',name_en:'Reiki',
-    teaser_es:'Canalización de energía universal para sanar y equilibrar.',
-    teaser_en:'Channeling of universal energy to heal and balance.',
-    exp_title_es:'¿Qué es el Reiki?',exp_title_en:'What is Reiki?',
-    exp_text_es:'El Reiki es una técnica japonesa de sanación energética basada en la transmisión de energía vital universal a través de las manos del practicante. Restaura el flujo natural de energía en el cuerpo, liberando bloqueos físicos, emocionales y mentales. Puede realizarse en persona o a distancia con igual efectividad.',
-    exp_text_en:'Reiki is a Japanese energy healing technique based on the transmission of universal life energy through the practitioner\'s hands. It restores the natural flow of energy in the body, releasing physical, emotional, and mental blockages. It can be performed in person or at distance with equal effectiveness.',
-    features_es:'Liberación de bloqueos energéticos|Reducción del estrés y la ansiedad|Apoyo en procesos de sanación física|Equilibrio de los centros energéticos (chakras)',
-    features_en:'Release of energy blockages|Reduction of stress and anxiety|Support in physical healing processes|Balancing of energy centers (chakras)',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  },
-  {
-    icon:'🌿',color:'rgba(92,184,133,0.15)',
-    name_es:'Sanación Pránica',name_en:'Pranic Healing',
-    teaser_es:'Limpieza y energización del cuerpo de energía.',
-    teaser_en:'Cleansing and energizing the body of energy.',
-    exp_title_es:'¿Qué es la Sanación Pránica?',exp_title_en:'What is Pranic Healing?',
-    exp_text_es:'La Sanación Pránica es un sistema desarrollado por el Maestro Choa Kok Sui que trabaja directamente sobre el cuerpo energético humano (aura y chakras). A través de técnicas específicas de barrido y energización, elimina energías agotadas y repone energía vital, acelerando los procesos naturales de sanación.',
-    exp_text_en:'Pranic Healing is a system developed by Master Choa Kok Sui that works directly on the human energy body (aura and chakras). Through specific sweeping and energizing techniques, it removes depleted energies and replenishes vital energy, accelerating natural healing processes.',
-    features_es:'Limpieza de energías agotadas del aura|Energización de órganos y chakras|Aceleración de procesos de sanación|Apoyo en condiciones físicas y emocionales',
-    features_en:'Cleansing of depleted aura energies|Energizing of organs and chakras|Acceleration of healing processes|Support for physical and emotional conditions',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  },
-  {
-    icon:'🌅',color:'rgba(212,147,90,0.15)',
-    name_es:'Apertura de Caminos',name_en:'Path Opening',
-    teaser_es:'Desbloquea los flujos de abundancia y oportunidad.',
-    teaser_en:'Unblock the flows of abundance and opportunity.',
-    exp_title_es:'¿Qué es la Apertura de Caminos?',exp_title_en:'What is Path Opening?',
-    exp_text_es:'La Apertura de Caminos es una práctica espiritual que trabaja para remover obstáculos energéticos que bloquean el progreso en áreas clave de la vida: trabajo, amor, salud y abundancia. Se realiza a través de rituales, oraciones y trabajo energético específico, y proviene de tradiciones espirituales afrocaribeñas y curanderismo latinoamericano.',
-    exp_text_en:'Path Opening is a spiritual practice that works to remove energetic obstacles blocking progress in key areas of life: work, love, health, and abundance. It is performed through rituals, prayers, and specific energetic work, and originates from Afro-Caribbean spiritual traditions and Latin American curanderismo.',
-    features_es:'Remoción de bloqueos en amor y relaciones|Apertura de oportunidades laborales y económicas|Protección espiritual y fortalecimiento de la energía|Rituales personalizados según la situación',
-    features_en:'Removal of blocks in love and relationships|Opening of work and financial opportunities|Spiritual protection and energy strengthening|Personalized rituals according to the situation',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  },
-  {
-    icon:'🌬',color:'rgba(139,127,212,0.15)',
-    name_es:'Limpieza Energética',name_en:'Energy Cleansing',
-    teaser_es:'Purifica tu campo energético y el de tus espacios.',
-    teaser_en:'Purify your energetic field and your spaces.',
-    exp_title_es:'¿Qué es la Limpieza Energética?',exp_title_en:'What is Energy Cleansing?',
-    exp_text_es:'La Limpieza Energética es un proceso de purificación del campo de energía personal (aura) o de un espacio físico. Elimina energías densas, negativas o estancadas que se acumulan por el estrés, situaciones difíciles, o la influencia de otros. Puede incluir técnicas como el sahumerio, uso de cristales, campanas tibetanas, y trabajo energético directo.',
-    exp_text_en:'Energy Cleansing is a purification process of the personal energy field (aura) or a physical space. It removes dense, negative, or stagnant energies that accumulate from stress, difficult situations, or the influence of others. It can include techniques such as smudging, use of crystals, Tibetan singing bowls, and direct energetic work.',
-    features_es:'Limpieza del aura y campo personal|Purificación de hogares, oficinas o espacios|Eliminación de energías negativas o estancadas|Protección y fortalecimiento energético post-limpieza',
-    features_en:'Cleansing of the aura and personal field|Purification of homes, offices, or spaces|Elimination of negative or stagnant energies|Energetic protection and strengthening post-cleansing',
-    specialists_url:'https://juancamador-design.github.io/mistika-specialists/'
-  }
-];
-
-/* ============================================================
-   PRODUCTS DATA
-   ============================================================ */
-var PRODUCTS = [
-  {
-    icon:'⭕',color:'rgba(200,169,110,0.15)',
-    name_es:'Mistika Circle',name_en:'Mistika Circle',
-    desc_es:'Nuestra membresía espiritual mensual y anual. Tránsitos astrológicos, meditaciones, rituales y acceso exclusivo a contenido premium.',
-    desc_en:'Our monthly and annual spiritual membership. Astrological transits, meditations, rituals and exclusive access to premium content.',
-    link_es:'Conoce la membresía',link_en:'Learn about membership',
-    url:'https://mistikaclub.app.clientclub.net/courses/offers/2fea2cb5-8d4b-4312-a3a8-da4c88b5bda3'
-  },
-  {
-    icon:'📅',color:'rgba(92,184,133,0.15)',
-    name_es:'Calendario Mistika 2026',name_en:'Mistika Calendar 2026',
-    desc_es:'Tu año de luz y propósito. Un calendario que combina diseño, bienestar y reflexión. Con edición personalizada Premium disponible.',
-    desc_en:'Your year of light and purpose. A calendar that combines design, wellness and reflection. Premium personalized edition available.',
-    link_es:'Ver el Calendario',link_en:'See the Calendar',
-    url:'https://mistika.cloud/checkout-page---calendar'
-  },
-  {
-    icon:'🎓',color:'rgba(90,159,212,0.15)',
-    name_es:'Mystika Academy',name_en:'Mystika Academy',
-    desc_es:'Aprende las artes espirituales de mano de expertos. Cursos, talleres y formaciones para todos los niveles — desde curiosos hasta practicantes.',
-    desc_en:'Learn the spiritual arts from experts. Courses, workshops, and training for all levels — from curious beginners to practitioners.',
-    link_es:'Explorar la Academia',link_en:'Explore the Academy',
-    url:'#'
-  }
-];
-
-/* ============================================================
-   ENGINE
-   ============================================================ */
-var lang = localStorage.getItem('sv_lang') || 'es';
-var CTA_SPEC = {es:'Ver especialistas →',en:'See specialists →'};
-var KNOW_MORE = {es:'Conoce más',en:'Learn more'};
-
-function renderServices(){
-  var grid = document.getElementById('svGrid');
-  grid.innerHTML = SERVICES.map(function(s,i){
-    var feats = (lang==='en'?s.features_en:s.features_es)
-      .split('|').map(function(f){
-        return '<div class="sv-exp-feat"><div class="sv-exp-dot"></div><span>'+f.trim()+'</span></div>';
-      }).join('');
-    return '<div class="sv-card" onclick="svToggle(this)" style="animation:svFadeUp .4s both;animation-delay:'+(i*0.05)+'s">'
-      +'<div class="sv-card-front">'
-      +'<div class="sv-card-icon-wrap" style="background:'+s.color+'">'+s.icon+'</div>'
-      +'<div class="sv-card-name">'+(lang==='en'?s.name_en:s.name_es)+'</div>'
-      +'<div class="sv-card-teaser">'+(lang==='en'?s.teaser_en:s.teaser_es)+'</div>'
-      +'<button class="sv-card-toggle">'
-      +(KNOW_MORE[lang])+' <div class="sv-toggle-circle">+</div>'
-      +'</button>'
-      +'</div>'
-      +'<div class="sv-card-back"><div class="sv-card-back-inner">'
-      +'<div class="sv-exp-eyebrow">'+(lang==='en'?s.name_en:s.name_es)+'</div>'
-      +'<div class="sv-exp-title">'+(lang==='en'?s.exp_title_en:s.exp_title_es)+'</div>'
-      +'<div class="sv-exp-text">'+(lang==='en'?s.exp_text_en:s.exp_text_es)+'</div>'
-      +'<div class="sv-exp-features">'+feats+'</div>'
-      +'<a class="sv-exp-cta" href="'+s.specialists_url+'" target="_blank">'
-      +CTA_SPEC[lang]+' <span class="sv-exp-cta-arr"></span></a>'
-      +'</div></div>'
-      +'</div>';
-  }).join('');
-}
-
-function renderProducts(){
-  var grid = document.getElementById('svProdGrid');
-  grid.innerHTML = PRODUCTS.map(function(p,i){
-    return '<div class="sv-prod-card" style="animation:svFadeUp .4s both;animation-delay:'+(0.5+i*0.08)+'s">'
-      +'<div class="sv-prod-top">'
-      +'<div class="sv-prod-icon" style="background:'+p.color+'">'+p.icon+'</div>'
-      +'<div class="sv-prod-name">'+(lang==='en'?p.name_en:p.name_es)+'</div>'
-      +'</div>'
-      +'<div class="sv-prod-desc">'+(lang==='en'?p.desc_en:p.desc_es)+'</div>'
-      +'<a class="sv-prod-link" href="'+p.url+'" target="_blank">'
-      +(lang==='en'?p.link_en:p.link_es)+' →</a>'
-      +'</div>';
-  }).join('');
-}
-
-function svToggle(card){
-  var wasOpen = card.classList.contains('open');
-  document.querySelectorAll('.sv-card').forEach(function(c){c.classList.remove('open');});
-  if(!wasOpen){
-    card.classList.add('open');
-    setTimeout(svSendHeight, 520);
-  }
-  svSendHeight();
-}
-
-function svLang(l){
-  lang = l;
-  localStorage.setItem('sv_lang', l);
-  document.querySelectorAll('.sv-lang-btn').forEach(function(b){
-    b.classList.toggle('on', b.dataset.lang===l);
+function setLang(lang){
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const t=el.getAttribute('data-'+lang);
+    if(!t)return;
+    el.innerHTML=t;
   });
-  // Apply static text
-  document.querySelectorAll('#sv-root [data-es]').forEach(function(el){
-    var txt = el.getAttribute('data-'+l);
-    if(!txt) return;
-    if(txt.indexOf('<')>-1) el.innerHTML=txt; else el.textContent=txt;
+  document.querySelectorAll('.lb').forEach((b,i)=>{
+    b.classList.toggle('active',(lang==='en'&&i===0)||(lang==='es'&&i===1));
   });
-  renderServices();
-  renderProducts();
-  svSendHeight();
+  document.documentElement.lang=lang;
 }
 
-// Auto-height for iframe
-function svSendHeight(){
-  var h = document.getElementById('sv-root').scrollHeight;
-  window.parent.postMessage({mkHeight: h}, '*');
-}
-window.addEventListener('load', svSendHeight);
-window.addEventListener('resize', svSendHeight);
-setInterval(svSendHeight, 800);
+// Scroll reveal
+(function(){
+  const els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('visible'));return;}
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+  },{threshold:.06,rootMargin:'0px 0px -20px 0px'});
+  els.forEach(e=>io.observe(e));
+})();
 
-// Fade-up animation
-var style = document.createElement('style');
-style.textContent = '@keyframes svFadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}';
-document.head.appendChild(style);
-
-// Init
-renderServices();
-renderProducts();
+// Category nav active state on scroll
+(function(){
+  const sections=document.querySelectorAll('.cat-section');
+  const pills=document.querySelectorAll('.cat-pill');
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id;
+        pills.forEach(p=>{
+          p.classList.toggle('active',p.getAttribute('href')==='#'+id);
+        });
+      }
+    });
+  },{threshold:.3});
+  sections.forEach(s=>io.observe(s));
+})();
 </script>
 </body>
 </html>
