@@ -82,6 +82,63 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 .d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(26,16,53,0.7);
+  z-index:1000;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+  padding:20px;backdrop-filter:blur(4px);
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{
+  background:var(--ash);border-radius:var(--rl);
+  max-width:680px;width:100%;max-height:88vh;overflow-y:auto;
+  position:relative;transform:translateY(24px) scale(0.97);
+  transition:transform .35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 32px 80px rgba(26,16,53,0.25);
+}
+.modal-overlay.open .modal-box{transform:translateY(0) scale(1);}
+.modal-header{padding:32px 32px 0;}
+.modal-cat{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--vm);margin-bottom:8px;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:300;color:var(--deep);line-height:1.1;margin-bottom:6px;}
+.modal-title em{font-style:italic;color:var(--violet);}
+.modal-subtitle{font-size:14px;color:var(--stone);margin-bottom:24px;line-height:1.6;}
+.modal-divider{height:1px;background:var(--fog);margin:0 32px;}
+.modal-body{padding:28px 32px 36px;}
+.modal-section{margin-bottom:28px;}
+.modal-section:last-child{margin-bottom:0;}
+.modal-section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--violet);margin-bottom:12px;
+}
+.modal-section-icon{width:28px;height:28px;border-radius:8px;background:var(--vp);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.modal-section-text{font-size:14px;color:var(--stone);line-height:1.75;}
+.modal-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;}
+.modal-result-item{
+  background:white;border-radius:var(--r);padding:12px 14px;
+  border:1px solid var(--fog);display:flex;align-items:flex-start;gap:8px;
+}
+.mri-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;margin-top:5px;flex-shrink:0;}
+.mri-text{font-size:13px;color:var(--deep);line-height:1.5;}
+.modal-cta-row{display:flex;align-items:center;justify-content:space-between;
+  margin-top:28px;padding-top:20px;border-top:1px solid var(--fog);}
+.modal-book-btn{
+  background:var(--violet);color:white;font-size:13px;font-weight:500;
+  padding:12px 28px;border-radius:100px;text-decoration:none;
+  transition:opacity .2s,transform .15s;border:none;cursor:pointer;
+}
+.modal-book-btn:hover{opacity:.88;transform:translateY(-1px);}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:36px;height:36px;
+  border-radius:50%;background:var(--fog);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--stone);transition:background .2s;
+  line-height:1;
+}
+.modal-close:hover{background:var(--mist);}
 </style>
 </head>
 <body>
@@ -110,7 +167,7 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     <a href="#records" class="cat-pill" data-en="Records & Consciousness" data-es="Registros y Conciencia">Records & Consciousness</a>
     <a href="#coaching" class="cat-pill" data-en="Spiritual Coaching" data-es="Coaching Espiritual">Spiritual Coaching</a>
     <a href="#numerology" class="cat-pill" data-en="Numerology" data-es="Numerología">Numerology</a>
-    <a href="#healing" class="cat-pill" data-en="Energy Healing" data-es="Sanación Energética">Energy Healing</a>
+    <a href="#healing" class="cat-pill" data-en="Pranic Healing" data-es="Sanación Pránica">Pranic Healing</a>
     <a href="#mediumship" class="cat-pill" data-en="Mediumship" data-es="Mediumnidad">Mediumship</a>
     <a href="#cleansing" class="cat-pill" data-en="Cleansing & Protection" data-es="Limpieza y Protección">Cleansing & Protection</a>
     <a href="#rituals" class="cat-pill" data-en="Rituals & Manifestation" data-es="Rituales y Manifestación">Rituals & Manifestation</a>
@@ -129,30 +186,30 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     </div>
   </div>
   <div class="services-grid">
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Tarot Reading" data-es="Lectura de Tarot">Tarot Reading</div>
       <div class="svc-desc" data-en="A deeply intuitive session using the ancient language of Tarot to illuminate your current path, reveal hidden influences, and offer guidance for your most important decisions and transitions." data-es="Una sesión profundamente intuitiva que usa el lenguaje del Tarot para iluminar tu camino actual, revelar influencias ocultas y ofrecer orientación para tus decisiones más importantes.">A deeply intuitive session using the ancient language of Tarot to illuminate your current path, reveal hidden influences, and offer guidance for your most important decisions and transitions.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Tarot Reading'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Oracle Cards" data-es="Cartas Oráculo">Oracle Cards</div>
       <div class="svc-desc" data-en="Through the gentle wisdom of Oracle cards, your guide will help you receive messages that feel aligned, comforting, and empowering — perfect for those seeking soft, loving guidance." data-es="A través de la suave sabiduría de las cartas oráculo, tu guía te ayudará a recibir mensajes alineados, reconfortantes y empoderadores.">Through the gentle wisdom of Oracle cards, your guide will help you receive messages that feel aligned, comforting, and empowering — perfect for those seeking soft, loving guidance.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Oracle Cards'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d3">
       <div class="svc-name" data-en="Pendulum Reading" data-es="Lectura de Péndulo">Pendulum Reading</div>
       <div class="svc-desc" data-en="The pendulum speaks the language of energy. This focused session is ideal for yes/no clarity, energy assessment, and accessing subconscious truths your analytical mind may overlook." data-es="El péndulo habla el lenguaje de la energía. Esta sesión es ideal para claridad de sí/no y acceder a verdades subconscientes.">The pendulum speaks the language of energy. This focused session is ideal for yes/no clarity, energy assessment, and accessing subconscious truths your analytical mind may overlook.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Pendulum Reading'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Rune Reading" data-es="Lectura de Runas">Rune Reading</div>
       <div class="svc-desc" data-en="Drawing from the ancient Norse tradition, rune readings offer powerful archetypal messages about your current cycles, challenges, and the energies at work in your life right now." data-es="Desde la tradición nórdica ancestral, las runas ofrecen poderosos mensajes arquetípicos sobre tus ciclos y desafíos actuales.">Drawing from the ancient Norse tradition, rune readings offer powerful archetypal messages about your current cycles, challenges, and the energies at work in your life right now.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Rune Reading'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="I Ching" data-es="I Ching">I Ching</div>
       <div class="svc-desc" data-en="One of the oldest wisdom systems in the world, the I Ching offers profound insight into the natural flow of change. Your guide will help you interpret its teachings for your present situation." data-es="Uno de los sistemas de sabiduría más antiguos del mundo, el I Ching ofrece una profunda perspectiva sobre el flujo natural del cambio.">One of the oldest wisdom systems in the world, the I Ching offers profound insight into the natural flow of change. Your guide will help you interpret its teachings for your present situation.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('I Ching'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
   </div>
 </section>
@@ -167,20 +224,20 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     </div>
   </div>
   <div class="services-grid">
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Akashic Records Reading" data-es="Lectura de Registros Akáshicos">Akashic Records Reading</div>
       <div class="svc-desc" data-en="The Akashic Records hold the complete energetic history of your soul. In this sacred session, your guide will access your personal records to help you understand recurring patterns, soul gifts, and the deeper purpose behind your experiences." data-es="Los Registros Akáshicos contienen la historia energética completa de tu alma. Tu guía accederá a tus registros para ayudarte a comprender patrones recurrentes y el propósito profundo de tus experiencias.">The Akashic Records hold the complete energetic history of your soul. In this sacred session, your guide will access your personal records to help you understand recurring patterns, soul gifts, and the deeper purpose behind your experiences.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Akashic Records Reading'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Past Life Reading" data-es="Lectura de Vidas Pasadas">Past Life Reading</div>
       <div class="svc-desc" data-en="Explore the lives your soul has lived before this one. Past life readings can illuminate the root of current fears, relationships, and recurring themes — bringing healing, understanding, and deep liberation." data-es="Explora las vidas que tu alma ha vivido antes. Las lecturas de vidas pasadas pueden iluminar la raíz de miedos actuales, relaciones y temas recurrentes.">Explore the lives your soul has lived before this one. Past life readings can illuminate the root of current fears, relationships, and recurring themes — bringing healing, understanding, and deep liberation.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Past Life Reading'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d3">
       <div class="svc-name" data-en="Soul Contract Reading" data-es="Lectura de Contrato del Alma">Soul Contract Reading</div>
       <div class="svc-desc" data-en="Before you arrived in this lifetime, your soul made agreements about lessons, relationships, and growth. This session helps you understand those soul-level commitments and how to honor or renegotiate them consciously." data-es="Antes de llegar a esta vida, tu alma hizo acuerdos sobre lecciones y relaciones. Esta sesión te ayuda a entender esos compromisos a nivel del alma.">Before you arrived in this lifetime, your soul made agreements about lessons, relationships, and growth. This session helps you understand those soul-level commitments and how to honor or renegotiate them consciously.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Soul Contract Reading'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
   </div>
 </section>
@@ -195,30 +252,30 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     </div>
   </div>
   <div class="services-grid">
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Spiritual Coaching" data-es="Coaching Espiritual">Spiritual Coaching</div>
       <div class="svc-desc" data-en="Integrate your spiritual beliefs with your everyday life. Your coach will support you in developing practices, navigating transitions, and aligning your outer world with the values and vision of your soul." data-es="Integra tus creencias espirituales con tu vida cotidiana. Tu coach te apoyará en el desarrollo de prácticas y en alinear tu mundo exterior con los valores de tu alma.">Integrate your spiritual beliefs with your everyday life. Your coach will support you in developing practices, navigating transitions, and aligning your outer world with the values and vision of your soul.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Spiritual Coaching'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Intuitive Coaching" data-es="Coaching Intuitivo">Intuitive Coaching</div>
       <div class="svc-desc" data-en="Your intuitive coach combines energetic perception with coaching techniques to help you break through blocks, make aligned decisions, and reconnect with your inner compass when it feels silent." data-es="Tu coach intuitivo combina percepción energética con técnicas de coaching para ayudarte a superar bloqueos y reconectar con tu brújula interior.">Your intuitive coach combines energetic perception with coaching techniques to help you break through blocks, make aligned decisions, and reconnect with your inner compass when it feels silent.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Intuitive Coaching'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d3">
       <div class="svc-name" data-en="Life Purpose Guidance" data-es="Guía de Propósito de Vida">Life Purpose Guidance</div>
       <div class="svc-desc" data-en="Feeling lost, unfulfilled, or at a crossroads? This session is designed to help you uncover your authentic calling, understand your soul's unique gifts, and take meaningful steps toward a life that truly feels like yours." data-es="¿Te sientes perdido o en una encrucijada? Esta sesión te ayuda a descubrir tu llamado auténtico y dar pasos significativos hacia una vida que verdaderamente se sienta tuya.">Feeling lost, unfulfilled, or at a crossroads? This session is designed to help you uncover your authentic calling, understand your soul's unique gifts, and take meaningful steps toward a life that truly feels like yours.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Life Purpose Guidance'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Shadow Work" data-es="Trabajo de Sombra">Shadow Work</div>
       <div class="svc-desc" data-en="The parts of ourselves we've hidden hold our greatest power. Shadow work is a courageous, compassionate process of integrating the aspects of yourself you've rejected — and discovering the freedom on the other side." data-es="Las partes de nosotros mismos que hemos ocultado contienen nuestro mayor poder. El trabajo de sombra es un proceso valiente de integrar los aspectos que has rechazado.">The parts of ourselves we've hidden hold our greatest power. Shadow work is a courageous, compassionate process of integrating the aspects of yourself you've rejected — and discovering the freedom on the other side.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Shadow Work'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Manifestation Coaching" data-es="Coaching de Manifestación">Manifestation Coaching</div>
       <div class="svc-desc" data-en="Manifestation is not wishful thinking — it's conscious co-creation. Your coach will help you identify and clear limiting beliefs, align your energy with your intentions, and build a practical system for calling in what you truly desire." data-es="La manifestación no es desear — es cocreación consciente. Tu coach te ayudará a identificar creencias limitantes y alinear tu energía con tus intenciones.">Manifestation is not wishful thinking — it's conscious co-creation. Your coach will help you identify and clear limiting beliefs, align your energy with your intentions, and build a practical system for calling in what you truly desire.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Manifestation Coaching'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
   </div>
 </section>
@@ -233,20 +290,20 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     </div>
   </div>
   <div class="services-grid">
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Life Path Analysis" data-es="Análisis del Camino de Vida">Life Path Analysis</div>
       <div class="svc-desc" data-en="Your Life Path number is the core vibration of your existence. This reading reveals your natural strengths, karmic lessons, and the overarching themes your soul chose to explore in this lifetime." data-es="Tu número de Camino de Vida es la vibración central de tu existencia. Esta lectura revela tus fortalezas naturales y las lecciones kármicas que tu alma eligió explorar.">Your Life Path number is the core vibration of your existence. This reading reveals your natural strengths, karmic lessons, and the overarching themes your soul chose to explore in this lifetime.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Life Path Analysis'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Name & Destiny Reading" data-es="Lectura de Nombre y Destino">Name & Destiny Reading</div>
       <div class="svc-desc" data-en="Your name carries a specific vibration that shapes how you move through the world. This session explores the energetic meaning of your full name and what it reveals about your destiny, expression, and soul's desire." data-es="Tu nombre lleva una vibración específica. Esta sesión explora el significado energético de tu nombre completo y lo que revela sobre tu destino y el deseo de tu alma.">Your name carries a specific vibration that shapes how you move through the world. This session explores the energetic meaning of your full name and what it reveals about your destiny, expression, and soul's desire.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Name & Destiny Reading'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d3">
       <div class="svc-name" data-en="Personal Year Forecast" data-es="Pronóstico del Año Personal">Personal Year Forecast</div>
       <div class="svc-desc" data-en="Every year carries a unique energetic theme determined by your personal cycle. This reading reveals the opportunities, challenges, and key focuses of your current year so you can move through it with intention and grace." data-es="Cada año lleva un tema energético único. Esta lectura revela las oportunidades y desafíos de tu año actual para que puedas navegarlo con intención.">Every year carries a unique energetic theme determined by your personal cycle. This reading reveals the opportunities, challenges, and key focuses of your current year so you can move through it with intention and grace.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Personal Year Forecast'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
   </div>
 </section>
@@ -261,25 +318,25 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     </div>
   </div>
   <div class="services-grid">
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Reiki" data-es="Reiki">Reiki</div>
       <div class="svc-desc" data-en="Reiki is a gentle, non-invasive energy healing modality that channels universal life force to promote deep relaxation, emotional release, and holistic wellbeing. Sessions are available in-person or at a distance with equal effectiveness." data-es="El Reiki es una modalidad de sanación energética suave que canaliza la fuerza vital universal para promover relajación profunda y bienestar holístico.">Reiki is a gentle, non-invasive energy healing modality that channels universal life force to promote deep relaxation, emotional release, and holistic wellbeing. Sessions are available in-person or at a distance with equal effectiveness.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Reiki'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Chakra Balancing" data-es="Equilibrio de Chakras">Chakra Balancing</div>
       <div class="svc-desc" data-en="When your chakras are out of alignment, you may feel stuck, depleted, or disconnected. This session identifies blockages in your energy centers and works to restore their natural, harmonious flow." data-es="Cuando tus chakras están desalineados puedes sentirte estancado o desconectado. Esta sesión identifica bloqueos y restaura su flujo natural y armonioso.">When your chakras are out of alignment, you may feel stuck, depleted, or disconnected. This session identifies blockages in your energy centers and works to restore their natural, harmonious flow.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Chakra Balancing'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d3">
-      <div class="svc-name" data-en="Energy Healing" data-es="Sanación Energética">Energy Healing</div>
+      <div class="svc-name" data-en="Pranic Healing" data-es="Sanación Pránica">Pranic Healing</div>
       <div class="svc-desc" data-en="A personalized session where your practitioner uses intuitive awareness and energetic techniques to address your specific needs — whether emotional, physical, or spiritual. Each session is unique and tailored to you." data-es="Una sesión personalizada donde tu practicante usa conciencia intuitiva y técnicas energéticas para atender tus necesidades específicas. Cada sesión es única y adaptada a ti.">A personalized session where your practitioner uses intuitive awareness and energetic techniques to address your specific needs — whether emotional, physical, or spiritual. Each session is unique and tailored to you.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Pranic Healing'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Distance Healing" data-es="Sanación a Distancia">Distance Healing</div>
       <div class="svc-desc" data-en="Energy transcends physical location. Distance healing sessions are just as powerful as in-person ones — your practitioner connects with your energy field remotely, sending healing and restoration wherever you are in the world." data-es="La energía trasciende la ubicación física. Las sesiones de sanación a distancia son igual de poderosas — tu practicante se conecta con tu campo energético de forma remota.">Energy transcends physical location. Distance healing sessions are just as powerful as in-person ones — your practitioner connects with your energy field remotely, sending healing and restoration wherever you are in the world.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Distance Healing'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
   </div>
 </section>
@@ -294,25 +351,25 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     </div>
   </div>
   <div class="services-grid">
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Medium Readings" data-es="Lecturas de Médium">Medium Readings</div>
       <div class="svc-desc" data-en="In a medium reading, your guide serves as a clear channel to connect with loved ones, guides, and souls in spirit. These sessions are held with the highest intention of love, healing, and light — never fear." data-es="En una lectura de médium, tu guía sirve como canal claro para conectar con seres queridos y almas en espíritu. Siempre desde el amor, la sanación y la luz.">In a medium reading, your guide serves as a clear channel to connect with loved ones, guides, and souls in spirit. These sessions are held with the highest intention of love, healing, and light — never fear.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Medium Readings'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Spirit Communication" data-es="Comunicación con el Espíritu">Spirit Communication</div>
       <div class="svc-desc" data-en="A focused session for receiving specific messages from the spirit world. Your medium will create the conditions for clear, loving communication that brings comfort, confirmation, and often unexpected moments of profound recognition." data-es="Una sesión enfocada para recibir mensajes específicos del mundo espiritual. Tu médium creará las condiciones para una comunicación clara y amorosa.">A focused session for receiving specific messages from the spirit world. Your medium will create the conditions for clear, loving communication that brings comfort, confirmation, and often unexpected moments of profound recognition.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Spirit Communication'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d3">
       <div class="svc-name" data-en="Ancestral Messages" data-es="Mensajes Ancestrales">Ancestral Messages</div>
       <div class="svc-desc" data-en="Your ancestors walk with you, even if you cannot see them. This session opens a healing dialogue with your ancestral lineage — receiving their wisdom, blessings, and support as you navigate your present journey." data-es="Tus ancestros caminan contigo, aunque no puedas verlos. Esta sesión abre un diálogo sanador con tu linaje ancestral.">Your ancestors walk with you, even if you cannot see them. This session opens a healing dialogue with your ancestral lineage — receiving their wisdom, blessings, and support as you navigate your present journey.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Ancestral Messages'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Angel Channeling" data-es="Canalización Angelical">Angel Channeling</div>
       <div class="svc-desc" data-en="Angels are beings of pure light whose only purpose is your highest good. In this session, your guide channels angelic guidance — bringing messages of love, reassurance, and divine direction for your path forward." data-es="Los ángeles son seres de luz pura cuyo único propósito es tu mayor bien. Tu guía canaliza mensajes angelicales de amor y dirección divina para tu camino.">Angels are beings of pure light whose only purpose is your highest good. In this session, your guide channels angelic guidance — bringing messages of love, reassurance, and divine direction for your path forward.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Angel Channeling'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
   </div>
 </section>
@@ -327,25 +384,25 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     </div>
   </div>
   <div class="services-grid">
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Energy Cleansing" data-es="Limpieza Energética">Energy Cleansing</div>
       <div class="svc-desc" data-en="Over time, we accumulate dense energy from stress, difficult interactions, and unresolved emotions. An energy cleansing session clears this accumulated heaviness, leaving you feeling lighter, clearer, and more like yourself." data-es="Con el tiempo acumulamos energía densa del estrés e interacciones difíciles. Una limpieza energética elimina esta pesadez, dejándote más liviano y claro.">Over time, we accumulate dense energy from stress, difficult interactions, and unresolved emotions. An energy cleansing session clears this accumulated heaviness, leaving you feeling lighter, clearer, and more like yourself.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Energy Cleansing'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Aura Cleansing" data-es="Limpieza de Aura">Aura Cleansing</div>
       <div class="svc-desc" data-en="Your aura is the luminous energy field surrounding your physical body. Aura cleansing removes tears, debris, and unwanted attachments from this field — restoring its natural vibrancy and strengthening your energetic immune system." data-es="Tu aura es el campo energético luminoso que rodea tu cuerpo físico. La limpieza de aura elimina desgastes y apegos no deseados, restaurando su vibración natural.">Your aura is the luminous energy field surrounding your physical body. Aura cleansing removes tears, debris, and unwanted attachments from this field — restoring its natural vibrancy and strengthening your energetic immune system.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Aura Cleansing'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d3">
       <div class="svc-name" data-en="Cord Cutting" data-es="Corte de Cordones">Cord Cutting</div>
       <div class="svc-desc" data-en="Energetic cords form between people through intense emotion, dependency, or unresolved connection. Cord cutting is a liberating practice that severs unhealthy energetic ties with compassion — freeing both parties to move forward in wholeness." data-es="Los cordones energéticos se forman entre personas a través de emociones intensas o conexiones no resueltas. El corte de cordones libera vínculos energéticos no saludables con compasión.">Energetic cords form between people through intense emotion, dependency, or unresolved connection. Cord cutting is a liberating practice that severs unhealthy energetic ties with compassion — freeing both parties to move forward in wholeness.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Cord Cutting'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Protection Rituals" data-es="Rituales de Protección">Protection Rituals</div>
       <div class="svc-desc" data-en="Create a sacred shield of light around yourself, your home, or your loved ones. Your guide will lead you through a personalized protection ritual using intention, sacred tools, and universal light to establish lasting energetic safety." data-es="Crea un escudo sagrado de luz a tu alrededor. Tu guía te llevará a través de un ritual de protección personalizado usando intención y luz universal.">Create a sacred shield of light around yourself, your home, or your loved ones. Your guide will lead you through a personalized protection ritual using intention, sacred tools, and universal light to establish lasting energetic safety.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Protection Rituals'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
   </div>
 </section>
@@ -360,15 +417,15 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
     </div>
   </div>
   <div class="services-grid">
-    <div class="svc-card reveal d1">
+    <div class="svc-card reveal d1" onclick="
       <div class="svc-name" data-en="Abundance Rituals" data-es="Rituales de Abundancia">Abundance Rituals</div>
       <div class="svc-desc" data-en="Abundance is your natural state — and sometimes it needs to be reclaimed. Your guide will create a personalized ritual to clear scarcity programming, activate your abundance frequency, and align you with the flow of prosperity in all its forms." data-es="La abundancia es tu estado natural. Tu guía creará un ritual personalizado para limpiar la programación de escasez y activar tu frecuencia de abundancia en todas sus formas.">Abundance is your natural state — and sometimes it needs to be reclaimed. Your guide will create a personalized ritual to clear scarcity programming, activate your abundance frequency, and align you with the flow of prosperity in all its forms.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Abundance Rituals'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
     <div class="svc-card reveal d2">
       <div class="svc-name" data-en="Road Opening Rituals" data-es="Rituales de Abre Caminos">Road Opening Rituals</div>
       <div class="svc-desc" data-en="When doors feel closed and progress feels blocked, road opening rituals work to dissolve obstacles, clear energetic crossroads, and invite new possibilities forward. A powerful ceremonial practice for those standing at a threshold, ready for what's next." data-es="Cuando las puertas se sienten cerradas, los rituales abre caminos trabajan para disolver obstáculos y abrir nuevas posibilidades. Una práctica ceremonial poderosa para quienes están en un umbral.">When doors feel closed and progress feels blocked, road opening rituals work to dissolve obstacles, clear energetic crossroads, and invite new possibilities forward. A powerful ceremonial practice for those standing at a threshold, ready for what's next.</div>
-      <a href="https://mistika.cloud/services" class="svc-cta" data-en="Book a session →" data-es="Reservar sesión →">Book a session →</a>
+      <a href="https://mistika.cloud/services" class="svc-cta" onclick="openModal('Road Opening Rituals'); return false;" data-en="Learn more →" data-es="Conoce más →">Learn more →</a>
     </div>
   </div>
 </section>
@@ -384,8 +441,489 @@ body{background:var(--ash);font-family:'DM Sans',sans-serif;color:var(--deep);fo
   </div>
 </section>
 
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-box" id="modal-box">
+    <button class="modal-close" onclick="closeModalDirect()" aria-label="Close">✕</button>
+    <div class="modal-header">
+      <div class="modal-cat" id="modal-cat"></div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-subtitle" id="modal-subtitle"></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <div class="modal-section-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a2d8c" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <span id="modal-consists-label">What this session includes</span>
+        </div>
+        <div class="modal-section-text" id="modal-consists"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <div class="modal-section-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3a2d8c" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26Z"/></svg>
+          </div>
+          <span id="modal-how-label">How it works</span>
+        </div>
+        <div class="modal-section-text" id="modal-how"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <div class="modal-section-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span id="modal-results-label">What you can expect</span>
+        </div>
+        <div class="modal-results" id="modal-results"></div>
+      </div>
+      <div class="modal-cta-row">
+        <div style="font-size:13px;color:var(--stone);" id="modal-cta-note">Ready to begin your journey?</div>
+        <a href="https://mistika.cloud/meet_our_specialists" class="modal-book-btn" id="modal-book-btn">Book a session</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+const SERVICES = {
+  en: {
+    'Tarot Reading': {
+      cat: 'Divination',
+      subtitle: 'A deeply intuitive session using the ancient language of Tarot.',
+      how: 'Your guide draws cards from a sacred Tarot deck and interprets their symbolism in relation to your specific question or life situation. The session unfolds as a dialogue — your reader listens, observes, and translates the archetypal messages of the cards into practical, actionable guidance.',
+      consists: 'A focused 45–60 minute session. You may come with a specific question or simply an openness to receive. Your reader will create a spread tailored to your situation — whether covering love, career, purpose, or transitions.',
+      results: ['Clarity on a specific decision or situation', 'Understanding of hidden influences at play', 'Validation of your intuitions', 'A roadmap for your next steps', 'Relief from uncertainty or confusion'],
+    },
+    'Oracle Cards': {
+      cat: 'Divination',
+      subtitle: 'Gentle, loving guidance through the wisdom of Oracle.',
+      how: 'Oracle cards carry specific energetic themes and messages chosen by your guide with intuitive care. Unlike Tarot, Oracle readings feel softer and more affirming — perfect for those seeking encouragement, divine messages, or a gentle check-in with their higher self.',
+      consists: 'A 30–45 minute session focused on themes of love, healing, and spiritual alignment. Your guide pulls cards intuitively and channels the messages that are most relevant to your current journey.',
+      results: ['Comfort and reassurance in uncertain times', 'Messages from your higher self or guides', 'Renewed clarity on your path', 'Emotional healing and peace', 'Inspiration and motivation to move forward'],
+    },
+    'Pendulum Reading': {
+      cat: 'Divination',
+      subtitle: 'Direct energetic answers through the language of resonance.',
+      how: 'Your practitioner uses a calibrated crystal or metal pendulum as a dowsing tool to access your subconscious and energetic field. The pendulum responds to yes/no questions with physical movement, bypassing the analytical mind to reach deeper truths.',
+      consists: 'A focused 30-minute session ideal for specific questions. You provide the questions, your guide works with the pendulum to access clear, binary answers and may combine with energy reading for additional context.',
+      results: ['Clear yes/no answers on specific questions', 'Access to subconscious knowledge', 'Energy field assessment', 'Guidance on choices and timing', 'Confirmation of your intuitive feelings'],
+    },
+    'Rune Reading': {
+      cat: 'Divination',
+      subtitle: 'Ancient Norse wisdom for modern life decisions.',
+      how: 'Your guide casts or draws rune stones — ancient Norse symbols each carrying a specific archetypal energy — and interprets their arrangement and meaning in relation to your current situation. Each rune represents a force of nature, a phase of life, or a cosmic principle.',
+      consists: 'A 45–60 minute session where runes are drawn and laid in a meaningful spread. Your reader translates their ancient messages into practical guidance relevant to your current cycle of life.',
+      results: ['Deep insight into current life cycles', 'Understanding of challenges from an archetypal perspective', 'Guidance on timing and action', 'Clarity on recurring life patterns', 'Connection to ancestral wisdom'],
+    },
+    'I Ching': {
+      cat: 'Divination',
+      subtitle: 'The ancient Chinese Book of Changes — wisdom for any moment.',
+      how: 'Your guide uses the traditional method of casting coins or yarrow stalks to generate a hexagram from the 64 possible configurations of the I Ching. This hexagram and its changing lines reveal the energetic quality of your current moment and the wisdom for navigating it.',
+      consists: 'A 45–60 minute session focused on your specific question or life situation. Your guide interprets the hexagram and its transformation lines, connecting ancient Chinese philosophy to your present reality.',
+      results: ['Deep understanding of the energy of your current moment', 'Wisdom on the natural flow of change', 'Guidance aligned with universal principles', 'Clarity on when to act and when to wait', 'Perspective that transcends surface-level concerns'],
+    },
+    'Akashic Records Reading': {
+      cat: 'Records & Consciousness',
+      subtitle: 'Access your soul's complete energetic history.',
+      how: 'Your guide enters a meditative state and opens your personal Akashic Records — an energetic library containing the complete history of your soul across all lifetimes. Using specific sacred prayers and protocols, they access information relevant to your current questions and soul journey.',
+      consists: 'A 60–90 minute session where you bring your most important questions about your life purpose, relationships, blocks, or soul gifts. Your reader channels information from your Records and may receive it as words, images, feelings, or direct knowing.',
+      results: ['Understanding of recurring life patterns and their origin', 'Clarity on soul gifts and life purpose', 'Release of old karmic contracts', 'Insight into important relationships', 'Profound sense of self-understanding and peace'],
+    },
+    'Past Life Reading': {
+      cat: 'Records & Consciousness',
+      subtitle: 'Discover the lives that are shaping your present.',
+      how: 'Your guide accesses information about your previous incarnations through the Akashic Records, intuitive channeling, or guided meditation. They identify past lives that are most relevant to your current challenges, gifts, or relationships — and explain how those experiences are influencing your present.',
+      consists: 'A 60-minute session focused on past lives connected to your current questions. Your guide may identify 1–3 relevant past lives and explore their themes, lessons, and unresolved energies.',
+      results: ['Relief from unexplained fears or patterns', 'Understanding of strong soul connections', 'Release of karmic debt or contracts', 'Validation of natural gifts and talents', 'Deep healing of old wounds carried across lifetimes'],
+    },
+    'Soul Contract Reading': {
+      cat: 'Records & Consciousness',
+      subtitle: 'Understand the agreements your soul made before this life.',
+      how: 'Before incarnating, your soul made agreements about the lessons, relationships, and experiences it would engage with in this lifetime. Your guide accesses these contracts through the Akashic Records and helps you understand which contracts are serving your growth and which may be ready for conscious renegotiation.',
+      consists: 'A 60–90 minute session exploring your primary soul contracts — with key relationships, with your life purpose, and with recurring challenges. Your guide will help you understand and, where appropriate, release or renegotiate contracts that no longer serve you.',
+      results: ['Understanding why certain relationships or patterns repeat', 'Clarity on soul-level agreements with family or partners', 'Permission to release contracts that have been fulfilled', 'Alignment with your authentic soul path', 'Freedom and renewed sense of direction'],
+    },
+    'Spiritual Coaching': {
+      cat: 'Spiritual Coaching',
+      subtitle: 'Integrate your spiritual life with your everyday reality.',
+      how: 'Your spiritual coach works with you over time to help you develop practices, navigate life transitions, and align your daily choices with your deeper values and spiritual understanding. Sessions combine intuitive guidance, practical tools, and reflective dialogue.',
+      consists: 'Typically a series of 60-minute sessions, recommended weekly or bi-weekly. Each session addresses your current focus — whether building a practice, navigating a transition, or deepening your spiritual understanding.',
+      results: ['A personal spiritual practice that fits your life', 'Greater alignment between values and daily choices', 'Tools for navigating challenging periods with grace', 'Deeper connection to your inner wisdom', 'A sense of purpose and spiritual grounding'],
+    },
+    'Intuitive Coaching': {
+      cat: 'Spiritual Coaching',
+      subtitle: 'Coaching guided by both strategy and energetic insight.',
+      how: 'Your intuitive coach combines traditional coaching methodology with energetic perception — reading the energy around your situation to identify blocks, opportunities, and the most aligned path forward. Sessions move between practical planning and energetic clearing.',
+      consists: 'A 60-minute session blending coaching questions, energetic observation, and intuitive guidance. Your coach will help you identify what is truly holding you back and co-create a plan aligned with your authentic energy.',
+      results: ['Breakthroughs on persistent blocks or patterns', 'Aligned decision-making from an energetic perspective', 'Renewed clarity and motivation', 'Practical action steps that feel genuinely right', 'Reconnection to your inner compass'],
+    },
+    'Life Purpose Guidance': {
+      cat: 'Spiritual Coaching',
+      subtitle: 'Find the thread that connects everything you are.',
+      how: 'Your guide uses a combination of intuitive reading, soul-level questioning, and practical exploration to help you identify your authentic life purpose. The session explores your natural gifts, what lights you up, and where your soul feels most alive.',
+      consists: 'A deep 90-minute session designed for those at a crossroads or feeling unfulfilled. Your guide will help you uncover the themes that run through your life and the contribution only you are here to make.',
+      results: ['A clear, embodied sense of your life purpose', 'Understanding of your unique gifts and contribution', 'Relief from the pressure of not knowing', 'Direction and meaningful next steps', 'Inspiration to move toward what truly calls you'],
+    },
+    'Shadow Work': {
+      cat: 'Spiritual Coaching',
+      subtitle: 'Integrate your whole self and reclaim your power.',
+      how: 'Your guide creates a safe, compassionate container for exploring the parts of yourself you have hidden, rejected, or been ashamed of. Using Jungian principles, somatic awareness, and intuitive guidance, you move through shadow material to find the gifts and power hidden within it.',
+      consists: 'A series of 60–90 minute sessions. Shadow work is a gradual process — your coach will move at a pace that feels safe and integrative, ensuring the work leads to empowerment rather than overwhelm.',
+      results: ['Freedom from self-sabotage and unconscious patterns', 'Reclamation of energy previously tied up in suppression', 'Greater self-acceptance and wholeness', 'Improved relationships as projections dissolve', 'Access to creativity, power, and authentic expression'],
+    },
+    'Manifestation Coaching': {
+      cat: 'Spiritual Coaching',
+      subtitle: 'Align your energy, beliefs, and actions with what you desire.',
+      how: 'Your coach helps you identify the limiting beliefs and energetic patterns standing between you and your desires — then builds a personalized system for aligning your thoughts, emotions, and actions with conscious manifestation. The approach is practical, energetic, and deeply personal.',
+      consists: 'A series of 60-minute sessions focused on a specific goal or desired outcome. Your coach will help you clear blocks, raise your energetic frequency, and create daily practices that support your manifestation.',
+      results: ['Identification and clearing of limiting beliefs', 'A practical manifestation system tailored to you', 'Elevated energetic frequency and alignment', 'Concrete steps toward your specific desires', 'Renewed faith in your ability to create your reality'],
+    },
+    'Life Path Analysis': {
+      cat: 'Numerology',
+      subtitle: 'Decode the core vibration of your soul's journey.',
+      how: 'Using your full birth date, your numerologist calculates your Life Path number and interprets its meaning in the context of your life. This number reveals the overarching themes, natural strengths, challenges, and opportunities that define your journey.',
+      consists: 'A 60-minute session exploring your Life Path number and how it manifests in your actual life experience. Your guide will help you understand both the gifts and the lessons of your number.',
+      results: ['Deep understanding of your natural strengths and gifts', 'Clarity on your karmic lessons and challenges', 'Insight into why certain experiences repeat', 'Guidance on your most aligned life direction', 'A sense of validation and self-acceptance'],
+    },
+    'Name & Destiny Reading': {
+      cat: 'Numerology',
+      subtitle: 'Discover what your name says about your soul.',
+      how: 'Each letter in your name carries a numerical value that creates a specific vibrational signature. Your numerologist analyzes your full birth name to reveal your Expression number (how you show up in the world), Soul Urge number (what you truly want), and Personality number (how others see you).',
+      consists: 'A 60-minute session analyzing the numerology of your full name. If you have changed your name, your guide will explore the significance of both names and what the change means for your vibration.',
+      results: ['Understanding of your soul's deepest desires', 'Insight into how you naturally express yourself', 'Clarity on the gap between who you are and who you show up as', 'Guidance on aligning your life with your soul's calling', 'Understanding of the energetic impact of name changes'],
+    },
+    'Personal Year Forecast': {
+      cat: 'Numerology',
+      subtitle: 'Navigate your year with cosmic precision and intention.',
+      how: 'Your personal year number is calculated from your birth date and the current calendar year. It reveals the energetic theme governing your year — from rest and reflection (Year 7) to new beginnings (Year 1) to harvest and completion (Year 9). Your guide maps out the monthly energies within your personal year.',
+      consists: 'A 60-minute forward-looking session ideal at the beginning of a new year or at a birthday. Your guide will explore your personal year, the months ahead, and how to work with rather than against the prevailing energy.',
+      results: ['A clear energetic map of your year ahead', 'Understanding of the best timing for key decisions', 'Guidance on when to push forward and when to rest', 'Monthly themes to help you plan intentionally', 'Confidence in navigating what's coming'],
+    },
+    'Reiki': {
+      cat: 'Pranic Healing',
+      subtitle: 'Universal life force for deep healing and restoration.',
+      how: 'Your Reiki practitioner channels universal life force energy through their hands, directing it through your energy field and body. The energy goes where it is most needed — releasing blockages, calming the nervous system, and supporting your body's natural healing capacity. Sessions can be in-person or equally effective at a distance.',
+      consists: 'A 60–90 minute session in a calm, sacred space. You remain fully clothed while your practitioner works with light touch or hands hovering over your body. Distance sessions follow the same protocol with you relaxing in your own space.',
+      results: ['Deep physical and emotional relaxation', 'Release of accumulated stress and tension', 'Accelerated recovery from illness or emotional difficulty', 'Improved sleep and overall sense of wellbeing', 'Greater clarity and energetic lightness'],
+    },
+    'Chakra Balancing': {
+      cat: 'Pranic Healing',
+      subtitle: 'Restore the natural flow of your energy centers.',
+      how: 'Your practitioner scans and assesses each of your seven primary chakras, identifying which are overactive, underactive, or blocked. Using energy work, sound, crystals, or visualization, they work to restore balance and harmonious flow throughout your entire energy system.',
+      consists: 'A 60–90 minute session where each chakra is assessed and addressed systematically. Your practitioner will often share insights about what they find and may offer practices for maintaining balance after the session.',
+      results: ['Greater physical vitality and energy', 'Emotional balance and stability', 'Relief from specific physical or emotional symptoms linked to chakra imbalances', 'Heightened intuition and spiritual connection', 'A sense of wholeness and integration'],
+    },
+    'Pranic Healing': {
+      cat: 'Pranic Healing',
+      subtitle: 'Advanced energy healing using prana — the life force of the universe.',
+      how: 'Pranic Healing is a highly developed, systematic approach to energy healing that uses prana (life force energy) to cleanse, energize, and balance the body's energy field. Your practitioner uses specific scanning and sweeping techniques to remove diseased or stagnant energy and replace it with fresh, vital prana.',
+      consists: 'A 60–90 minute session. No physical contact is required — your practitioner works entirely with your energy body. The approach is precise and methodical, addressing specific areas of concern as well as the overall energy system.',
+      results: ['Accelerated healing of physical conditions', 'Significant reduction in stress and anxiety', 'Emotional release and psychological relief', 'Improved energy levels and mental clarity', 'Strengthened immune system and overall vitality'],
+    },
+    'Distance Healing': {
+      cat: 'Pranic Healing',
+      subtitle: 'Healing has no boundaries — receive it wherever you are.',
+      how: 'Energy is not limited by physical space. Your practitioner connects with your energy field remotely using intention, visualization, and energetic protocols that have been shown to be as effective as in-person work. You simply relax in your own space at the agreed time.',
+      consists: 'A 45–60 minute remote session. You will receive a time to relax and be receptive. Your practitioner works on your energy field and may send you a summary of what they observed and addressed afterward.',
+      results: ['All the benefits of in-person energy healing', 'Convenience of receiving healing from your own home', 'Relief from physical pain, emotional stress, or energetic heaviness', 'Renewed sense of calm and balance', 'Ongoing support regardless of geographic location'],
+    },
+    'Medium Readings': {
+      cat: 'Mediumship',
+      subtitle: 'Sacred connection with loved ones in spirit.',
+      how: 'Your medium raises their vibrational frequency to connect with souls in the spirit world. They serve as a clear, loving channel — receiving impressions, words, images, emotions, and physical sensations from those who have crossed over, and relaying these messages to you with care and respect.',
+      consists: 'A 60-minute session conducted with prayer, intention, and the highest ethical standards. Your medium will attempt to connect with specific loved ones or allow whoever is most present in spirit to come forward. The session is led by spirit — specific outcomes cannot be guaranteed.',
+      results: ['Evidence of continued existence beyond physical death', 'Healing messages from loved ones in spirit', 'Closure and peace around loss and grief', 'Confirmation of ongoing love and connection', 'A transformed relationship with death and the afterlife'],
+    },
+    'Spirit Communication': {
+      cat: 'Mediumship',
+      subtitle: 'Receive specific messages from the spirit world.',
+      how: 'A focused session dedicated to receiving communication from specific spirits or spiritual guides. Your medium uses clairvoyance (seeing), clairaudience (hearing), clairsentience (feeling), and claircognizance (knowing) to receive and relay messages as clearly as possible.',
+      consists: 'A 60-minute session. You may share who you hope to connect with, and your medium will work to establish that connection. The session unfolds organically — spirit often brings exactly what is most needed.',
+      results: ['Direct messages from specific loved ones or guides', 'Clarity on unresolved matters', 'Comfort and healing around loss', 'Guidance from higher dimensional perspectives', 'Proof of consciousness beyond physical death'],
+    },
+    'Ancestral Messages': {
+      cat: 'Mediumship',
+      subtitle: 'Receive the wisdom and blessings of your lineage.',
+      how: 'Your medium connects with ancestors from your family lineage — sometimes going back many generations — to receive their messages, blessings, and wisdom. Ancestral work can heal patterns carried through family lines and bring profound gifts of understanding.',
+      consists: 'A 60–90 minute session focused on your ancestral line. Your medium may connect with specific ancestors you knew or with lineage ancestors whose energy is relevant to your current journey.',
+      results: ['Healing of ancestral patterns and traumas', 'Blessings and support from your lineage', 'Understanding of family dynamics from a soul perspective', 'Release of inherited burdens or contracts', 'Deep sense of belonging and rootedness'],
+    },
+    'Angel Channeling': {
+      cat: 'Mediumship',
+      subtitle: 'Receive guidance directly from angelic beings of light.',
+      how: 'Your guide opens to angelic frequencies — raising their vibration to receive transmissions from archangels, guardian angels, and beings of light. These messages are delivered with unconditional love and are always oriented toward your highest good and greatest evolution.',
+      consists: 'A 45–60 minute session of angelic communication. Your guide may channel messages for specific life areas or allow the angels to bring what is most needed. The session often includes energetic healing alongside the messages.',
+      results: ['Profound sense of love, safety, and divine support', 'Clear guidance from angelic perspectives', 'Healing of fear and spiritual doubt', 'Confirmation of your path and choices', 'An elevated sense of connection to the divine'],
+    },
+    'Energy Cleansing': {
+      cat: 'Cleansing & Protection',
+      subtitle: 'Release accumulated density and return to your natural lightness.',
+      how: 'Your practitioner uses a variety of energy clearing techniques — including scanning, sweeping, smudging, sound, and intentional prayer — to remove dense, stagnant, or foreign energies from your aura and energy field. The session restores your natural energetic brightness.',
+      consists: 'A 45–60 minute session that may be conducted in person or at a distance. Your practitioner will assess your energy field, clear what needs to be removed, and seal and strengthen your aura afterward.',
+      results: ['Immediate sense of lightness and relief', 'Clearer thinking and emotional stability', 'Release of heaviness carried from difficult experiences', 'Restored sense of self and energetic identity', 'Greater vitality and emotional resilience'],
+    },
+    'Aura Cleansing': {
+      cat: 'Cleansing & Protection',
+      subtitle: 'Restore the brilliance of your luminous energy field.',
+      how: 'Your practitioner works specifically with your auric field — the multi-layered energy field surrounding your physical body. Using clairvoyant sight and energy work, they identify and repair tears, leaks, intrusions, and debris in each layer of your aura.',
+      consists: 'A 60-minute session focused entirely on your aura. Your practitioner will work through each auric layer methodically, clearing, repairing, and strengthening the field. They may share observations and offer practices for maintaining your aura between sessions.',
+      results: ['Restored energetic boundaries and resilience', 'Protection from absorbing others' energies', 'Greater sense of identity and personal power', 'Improved emotional regulation', 'Strengthened energetic immune system'],
+    },
+    'Cord Cutting': {
+      cat: 'Cleansing & Protection',
+      subtitle: 'Liberation from unhealthy energetic ties.',
+      how: 'Your practitioner identifies the energetic cords connecting you to people, situations, or patterns that are draining your energy. Using intention, visualization, and specific energetic protocols, these cords are compassionately severed — freeing you while honoring the relationship.',
+      consists: 'A 45–60 minute session. You may specify which relationships or situations you'd like to address, or allow your practitioner to identify the most energetically significant cords. The cutting is followed by healing and sealing the points where cords were attached.',
+      results: ['Freedom from energetic dependency or entanglement', 'Renewed sense of personal power and autonomy', 'Relief from obsessive thoughts about specific people', 'Space for new, healthier connections', 'Accelerated healing of difficult relationship dynamics'],
+    },
+    'Protection Rituals': {
+      cat: 'Cleansing & Protection',
+      subtitle: 'Establish a lasting shield of light around yourself and your space.',
+      how: 'Your guide leads you through a personalized protection ritual using sacred tools, intention, prayer, and universal light. The ritual creates an energetic shield that deflects negativity, maintains your energetic sovereignty, and keeps your field clear and bright.',
+      consists: 'A 45–60 minute ritual session that may include space clearing for your home as well as personal protection. Your guide will also teach you simple daily practices to maintain your protection between sessions.',
+      results: ['Consistent energetic protection from negative influences', 'Relief from feeling drained by people or environments', 'Secure, safe energetic boundaries', 'Ability to maintain your energy in challenging situations', 'A daily practice you can use to protect yourself'],
+    },
+    'Abundance Rituals': {
+      cat: 'Rituals & Manifestation',
+      subtitle: 'Activate your natural frequency of prosperity and flow.',
+      how: 'Your guide creates a personalized ritual tailored to your specific relationship with abundance. Using sacred tools, intention-setting, energy work, and ceremony, the ritual clears scarcity programming and activates your innate capacity to receive — in money, love, health, and opportunity.',
+      consists: 'A 60–90 minute ceremonial session conducted with sacred intention. Your guide may use candles, crystals, sacred geometry, affirmations, and energetic clearing as part of the ritual. You will also receive practices to continue the work at home.',
+      results: ['Release of scarcity beliefs and limitation programming', 'Activation of your abundance frequency', 'Renewed openness to receiving in all forms', 'Alignment with the natural flow of prosperity', 'Practical home practices to sustain the shift'],
+    },
+    'Road Opening Rituals': {
+      cat: 'Rituals & Manifestation',
+      subtitle: 'Clear the path and invite new possibilities into your life.',
+      how: 'Drawing from traditional ceremonial practices, your guide conducts a road opening ritual to dissolve obstacles, clear crossroads energy, and invite new opportunities and directions. The ritual works on both the energetic and spiritual levels to open what has been closed.',
+      consists: 'A 60–90 minute ceremonial session aligned with favorable timing when possible. Your guide will work with the specific situation creating blockage and design the ritual accordingly. Follow-up practices are included.',
+      results: ['Dissolution of specific obstacles or blockages', 'New doors and opportunities opening', 'Relief from feeling stuck or stagnant', 'Renewed momentum and forward movement', 'A sense of possibility, hope, and divine support'],
+    },
+  }
+};
+
+// Translate results and section titles for ES
+const SERVICES_ES = {
+  'Tarot Reading': {
+    cat: 'Adivinación',
+    subtitle: 'Una sesión profundamente intuitiva con el lenguaje ancestral del Tarot.',
+    how: 'Tu guía extrae cartas de una baraja sagrada de Tarot e interpreta su simbolismo en relación a tu pregunta o situación de vida. La sesión se desarrolla como un diálogo — tu lector escucha, observa y traduce los mensajes arquetípicos de las cartas en orientación práctica y accionable.',
+    consists: 'Una sesión de 45-60 minutos. Puedes venir con una pregunta específica o simplemente con apertura a recibir. Tu lector creará una tirada adaptada a tu situación.',
+    results: ['Claridad sobre una decisión o situación específica', 'Comprensión de influencias ocultas en juego', 'Validación de tus intuiciones', 'Una hoja de ruta para tus próximos pasos', 'Alivio de la incertidumbre'],
+  },
+  'Oracle Cards': {
+    cat: 'Adivinación',
+    subtitle: 'Guía amorosa y suave a través de la sabiduría del Oráculo.',
+    how: 'Las cartas oráculo llevan temas energéticos específicos elegidos por tu guía con cuidado intuitivo. Las lecturas de Oráculo se sienten más suaves y afirmativas — perfectas para quienes buscan aliento, mensajes divinos o una conexión suave con su yo superior.',
+    consists: 'Una sesión de 30-45 minutos enfocada en temas de amor, sanación y alineación espiritual.',
+    results: ['Consuelo y tranquilidad en tiempos inciertos', 'Mensajes de tu yo superior o guías', 'Claridad renovada en tu camino', 'Sanación emocional y paz', 'Inspiración para avanzar'],
+  },
+  'Pendulum Reading': {
+    cat: 'Adivinación',
+    subtitle: 'Respuestas energéticas directas a través del lenguaje de la resonancia.',
+    how: 'Tu practicante usa un péndulo calibrado de cristal o metal como herramienta de radiestesia para acceder a tu subconsciente y campo energético. El péndulo responde con movimiento físico, evitando la mente analítica para llegar a verdades más profundas.',
+    consists: 'Una sesión enfocada de 30 minutos ideal para preguntas específicas.',
+    results: ['Respuestas claras de sí/no a preguntas concretas', 'Acceso al conocimiento subconsciente', 'Evaluación del campo energético', 'Orientación sobre elecciones y tiempos', 'Confirmación de tus sentimientos intuitivos'],
+  },
+  'Rune Reading': {
+    cat: 'Adivinación',
+    subtitle: 'Sabiduría nórdica ancestral para las decisiones de la vida moderna.',
+    how: 'Tu guía lanza o extrae piedras rúnicas — símbolos nórdicos ancestrales que llevan energía arquetípica específica — e interpreta su disposición en relación a tu situación actual.',
+    consists: 'Una sesión de 45-60 minutos donde se extraen runas en una tirada significativa.',
+    results: ['Profunda comprensión de tus ciclos de vida actuales', 'Entendimiento de desafíos desde perspectiva arquetípica', 'Orientación sobre tiempos y acción', 'Claridad sobre patrones recurrentes', 'Conexión con sabiduría ancestral'],
+  },
+  'I Ching': {
+    cat: 'Adivinación',
+    subtitle: 'El Libro de los Cambios chino — sabiduría para cualquier momento.',
+    how: 'Tu guía usa el método tradicional de lanzar monedas para generar un hexagrama del I Ching. Este hexagrama revela la calidad energética de tu momento actual y la sabiduría para navegarlo.',
+    consists: 'Una sesión de 45-60 minutos enfocada en tu pregunta o situación de vida específica.',
+    results: ['Profunda comprensión de la energía de tu momento actual', 'Sabiduría sobre el flujo natural del cambio', 'Orientación alineada con principios universales', 'Claridad sobre cuándo actuar y cuándo esperar', 'Perspectiva que trasciende lo superficial'],
+  },
+  'Akashic Records Reading': {
+    cat: 'Registros y Conciencia',
+    subtitle: 'Accede a la historia energética completa de tu alma.',
+    how: 'Tu guía entra en estado meditativo y abre tus Registros Akáshicos personales — una biblioteca energética que contiene la historia completa de tu alma a través de todas las vidas. Usando oraciones y protocolos sagrados específicos, accede a información relevante para tus preguntas.',
+    consists: 'Una sesión de 60-90 minutos donde traes tus preguntas más importantes sobre propósito, relaciones, bloqueos o dones del alma.',
+    results: ['Comprensión de patrones recurrentes y su origen', 'Claridad sobre dones del alma y propósito de vida', 'Liberación de contratos kármicos antiguos', 'Visión sobre relaciones importantes', 'Profunda comprensión de ti mismo y paz interior'],
+  },
+  'Past Life Reading': {
+    cat: 'Registros y Conciencia',
+    subtitle: 'Descubre las vidas que están moldeando tu presente.',
+    how: 'Tu guía accede a información sobre tus encarnaciones anteriores a través de los Registros Akáshicos, canalización intuitiva o meditación guiada. Identifica vidas pasadas más relevantes a tus desafíos, dones o relaciones actuales.',
+    consists: 'Una sesión de 60 minutos enfocada en vidas pasadas conectadas a tus preguntas actuales.',
+    results: ['Alivio de miedos o patrones inexplicables', 'Comprensión de conexiones del alma profundas', 'Liberación de deuda o contratos kármicos', 'Validación de dones y talentos naturales', 'Sanación profunda de heridas antiguas'],
+  },
+  'Soul Contract Reading': {
+    cat: 'Registros y Conciencia',
+    subtitle: 'Comprende los acuerdos que tu alma hizo antes de esta vida.',
+    how: 'Antes de encarnar, tu alma hizo acuerdos sobre las lecciones y relaciones que viviría en esta vida. Tu guía accede a estos contratos a través de los Registros Akáshicos y te ayuda a entender cuáles sirven a tu crecimiento.',
+    consists: 'Una sesión de 60-90 minutos explorando tus contratos primarios del alma.',
+    results: ['Comprensión de por qué ciertas relaciones o patrones se repiten', 'Claridad sobre acuerdos a nivel del alma', 'Permiso para liberar contratos cumplidos', 'Alineación con tu camino auténtico del alma', 'Libertad y renovado sentido de dirección'],
+  },
+  'Spiritual Coaching': {
+    cat: 'Coaching Espiritual',
+    subtitle: 'Integra tu vida espiritual con tu realidad cotidiana.',
+    how: 'Tu coach espiritual trabaja contigo para desarrollar prácticas, navegar transiciones de vida y alinear tus elecciones diarias con tus valores más profundos y comprensión espiritual.',
+    consists: 'Generalmente una serie de sesiones de 60 minutos, recomendadas semanalmente o bisemanalmente.',
+    results: ['Una práctica espiritual personal que se adapta a tu vida', 'Mayor alineación entre valores y elecciones diarias', 'Herramientas para navegar períodos difíciles con gracia', 'Conexión más profunda con tu sabiduría interior', 'Sentido de propósito y arraigo espiritual'],
+  },
+  'Intuitive Coaching': {
+    cat: 'Coaching Espiritual',
+    subtitle: 'Coaching guiado por estrategia y percepción energética.',
+    how: 'Tu coach intuitivo combina metodología de coaching tradicional con percepción energética — leyendo la energía alrededor de tu situación para identificar bloqueos, oportunidades y el camino más alineado.',
+    consists: 'Una sesión de 60 minutos que mezcla preguntas de coaching, observación energética y orientación intuitiva.',
+    results: ['Avances en bloqueos o patrones persistentes', 'Toma de decisiones alineada energéticamente', 'Claridad y motivación renovadas', 'Pasos de acción concretos que se sienten genuinamente correctos', 'Reconexión con tu brújula interior'],
+  },
+  'Life Purpose Guidance': {
+    cat: 'Coaching Espiritual',
+    subtitle: 'Encuentra el hilo que conecta todo lo que eres.',
+    how: 'Tu guía usa lectura intuitiva, cuestionamiento a nivel del alma y exploración práctica para ayudarte a identificar tu propósito auténtico de vida.',
+    consists: 'Una sesión profunda de 90 minutos diseñada para quienes están en una encrucijada o se sienten insatisfechos.',
+    results: ['Sentido claro y encarnado de tu propósito de vida', 'Comprensión de tus dones únicos y contribución', 'Alivio de la presión de no saber', 'Dirección y próximos pasos significativos', 'Inspiración para moverte hacia lo que verdaderamente te llama'],
+  },
+  'Shadow Work': {
+    cat: 'Coaching Espiritual',
+    subtitle: 'Integra tu ser completo y recupera tu poder.',
+    how: 'Tu guía crea un contenedor seguro y compasivo para explorar las partes de ti que has ocultado o rechazado. Usando principios jungianos, conciencia somática y orientación intuitiva, atraviesas el material de sombra para encontrar los dones y el poder ocultos en él.',
+    consists: 'Una serie de sesiones de 60-90 minutos. El trabajo de sombra es un proceso gradual.',
+    results: ['Libertad del autosabotaje y patrones inconscientes', 'Recuperación de energía antes atrapada en supresión', 'Mayor autoaceptación y totalidad', 'Relaciones mejoradas a medida que las proyecciones se disuelven', 'Acceso a creatividad, poder y expresión auténtica'],
+  },
+  'Manifestation Coaching': {
+    cat: 'Coaching Espiritual',
+    subtitle: 'Alinea tu energía, creencias y acciones con lo que deseas.',
+    how: 'Tu coach te ayuda a identificar las creencias limitantes y patrones energéticos que se interponen entre tú y tus deseos — luego construye un sistema personalizado para alinear tus pensamientos, emociones y acciones con la manifestación consciente.',
+    consists: 'Una serie de sesiones de 60 minutos enfocadas en un objetivo específico.',
+    results: ['Identificación y eliminación de creencias limitantes', 'Un sistema de manifestación práctico adaptado a ti', 'Frecuencia energética elevada y alineación', 'Pasos concretos hacia tus deseos específicos', 'Fe renovada en tu capacidad de crear tu realidad'],
+  },
+  'Life Path Analysis': {
+    cat: 'Numerología',
+    subtitle: 'Decodifica la vibración central del viaje de tu alma.',
+    how: 'Usando tu fecha de nacimiento completa, tu numerólogo calcula tu número de Camino de Vida e interpreta su significado en el contexto de tu vida.',
+    consists: 'Una sesión de 60 minutos explorando tu número de Camino de Vida y cómo se manifiesta en tu experiencia real.',
+    results: ['Profunda comprensión de tus fortalezas y dones naturales', 'Claridad sobre tus lecciones y desafíos kármicos', 'Visión de por qué ciertas experiencias se repiten', 'Orientación sobre tu dirección de vida más alineada', 'Sensación de validación y autoaceptación'],
+  },
+  'Name & Destiny Reading': {
+    cat: 'Numerología',
+    subtitle: 'Descubre lo que tu nombre dice sobre tu alma.',
+    how: 'Cada letra de tu nombre lleva un valor numérico que crea una firma vibracional específica. Tu numerólogo analiza tu nombre completo de nacimiento para revelar tu número de Expresión, número de Anhelo del Alma y número de Personalidad.',
+    consists: 'Una sesión de 60 minutos analizando la numerología de tu nombre completo.',
+    results: ['Comprensión de los deseos más profundos de tu alma', 'Visión de cómo te expresas naturalmente', 'Claridad sobre la brecha entre quien eres y quien apareces siendo', 'Orientación para alinear tu vida con el llamado de tu alma', 'Comprensión del impacto energético de cambios de nombre'],
+  },
+  'Personal Year Forecast': {
+    cat: 'Numerología',
+    subtitle: 'Navega tu año con precisión cósmica e intención.',
+    how: 'Tu número de año personal se calcula a partir de tu fecha de nacimiento y el año calendario actual. Revela el tema energético que gobierna tu año y los énfasis mensuales dentro de él.',
+    consists: 'Una sesión de 60 minutos orientada al futuro, ideal al inicio de un nuevo año o en tu cumpleaños.',
+    results: ['Un mapa energético claro del año que viene', 'Comprensión del mejor momento para decisiones clave', 'Orientación sobre cuándo avanzar y cuándo descansar', 'Temas mensuales para planificar intencionalmente', 'Confianza para navegar lo que viene'],
+  },
+  'Reiki': {
+    cat: 'Sanación Pránica',
+    subtitle: 'Fuerza vital universal para sanación profunda y restauración.',
+    how: 'Tu practicante de Reiki canaliza energía de fuerza vital universal a través de sus manos, dirigiéndola a través de tu campo energético y cuerpo. La energía va donde más se necesita — liberando bloqueos, calmando el sistema nervioso y apoyando la capacidad natural de sanación del cuerpo.',
+    consists: 'Una sesión de 60-90 minutos en un espacio tranquilo y sagrado. Permaneces completamente vestido mientras tu practicante trabaja con toque suave o manos flotando sobre tu cuerpo.',
+    results: ['Relajación física y emocional profunda', 'Liberación del estrés y tensión acumulados', 'Recuperación acelerada de enfermedades o dificultades emocionales', 'Mejora del sueño y bienestar general', 'Mayor claridad y ligereza energética'],
+  },
+  'Chakra Balancing': {
+    cat: 'Sanación Pránica',
+    subtitle: 'Restaura el flujo natural de tus centros de energía.',
+    how: 'Tu practicante escanea y evalúa cada uno de tus siete chakras primarios, identificando cuáles están hiperactivos, hipoactivos o bloqueados. Usando trabajo energético, sonido, cristales o visualización, trabaja para restaurar el equilibrio y flujo armonioso.',
+    consists: 'Una sesión de 60-90 minutos donde cada chakra es evaluado y atendido sistemáticamente.',
+    results: ['Mayor vitalidad física y energía', 'Equilibrio y estabilidad emocional', 'Alivio de síntomas específicos vinculados a desequilibrios de chakras', 'Intuición elevada y conexión espiritual', 'Sensación de totalidad e integración'],
+  },
+  'Pranic Healing': {
+    cat: 'Sanación Pránica',
+    subtitle: 'Sanación energética avanzada usando prana — la fuerza vital del universo.',
+    how: 'La Sanación Pránica es un enfoque altamente desarrollado y sistemático de sanación energética que usa prana para limpiar, energizar y equilibrar el campo energético del cuerpo. Tu practicante usa técnicas específicas de escaneo y barrido para eliminar energía estancada y reemplazarla con prana fresco y vital.',
+    consists: 'Una sesión de 60-90 minutos. No se requiere contacto físico — tu practicante trabaja enteramente con tu cuerpo energético.',
+    results: ['Sanación acelerada de condiciones físicas', 'Reducción significativa del estrés y la ansiedad', 'Liberación emocional y alivio psicológico', 'Mejora de niveles de energía y claridad mental', 'Sistema inmunológico fortalecido y vitalidad general'],
+  },
+  'Distance Healing': {
+    cat: 'Sanación Pránica',
+    subtitle: 'La sanación no tiene fronteras — recíbela donde estés.',
+    how: 'La energía no está limitada por el espacio físico. Tu practicante se conecta con tu campo energético de forma remota usando intención, visualización y protocolos energéticos igualmente efectivos que el trabajo presencial.',
+    consists: 'Una sesión remota de 45-60 minutos. Recibirás un horario para relajarte y estar receptivo.',
+    results: ['Todos los beneficios de la sanación energética presencial', 'Comodidad de recibir sanación desde tu propio hogar', 'Alivio del dolor físico, estrés emocional o pesadez energética', 'Renovada sensación de calma y equilibrio', 'Apoyo continuo independientemente de tu ubicación'],
+  },
+  'Medium Readings': {
+    cat: 'Mediumnidad',
+    subtitle: 'Conexión sagrada con seres queridos en espíritu.',
+    how: 'Tu médium eleva su frecuencia vibratoria para conectar con almas en el mundo espiritual. Sirven como canal claro y amoroso — recibiendo impresiones, palabras, imágenes, emociones y sensaciones físicas de quienes han cruzado al otro lado.',
+    consists: 'Una sesión de 60 minutos realizada con oración, intención y los más altos estándares éticos.',
+    results: ['Evidencia de existencia continua más allá de la muerte física', 'Mensajes sanadores de seres queridos en espíritu', 'Cierre y paz alrededor de la pérdida y el duelo', 'Confirmación del amor y la conexión continuos', 'Relación transformada con la muerte y el más allá'],
+  },
+  'Spirit Communication': {
+    cat: 'Mediumnidad',
+    subtitle: 'Recibe mensajes específicos del mundo espiritual.',
+    how: 'Una sesión enfocada dedicada a recibir comunicación de espíritus específicos o guías espirituales. Tu médium usa clarividencia, clariaudiencia, clarisentencia y claricognición para recibir y transmitir mensajes lo más claramente posible.',
+    consists: 'Una sesión de 60 minutos. Puedes compartir con quién esperas conectarte.',
+    results: ['Mensajes directos de seres queridos o guías específicos', 'Claridad sobre asuntos no resueltos', 'Consuelo y sanación alrededor de la pérdida', 'Orientación desde perspectivas de dimensiones superiores', 'Prueba de la conciencia más allá de la muerte física'],
+  },
+  'Ancestral Messages': {
+    cat: 'Mediumnidad',
+    subtitle: 'Recibe la sabiduría y bendiciones de tu linaje.',
+    how: 'Tu médium se conecta con ancestros de tu linaje familiar — a veces retrocediendo muchas generaciones — para recibir sus mensajes, bendiciones y sabiduría. El trabajo ancestral puede sanar patrones llevados a través de líneas familiares.',
+    consists: 'Una sesión de 60-90 minutos enfocada en tu línea ancestral.',
+    results: ['Sanación de patrones y traumas ancestrales', 'Bendiciones y apoyo de tu linaje', 'Comprensión de dinámicas familiares desde perspectiva del alma', 'Liberación de cargas o contratos heredados', 'Profundo sentido de pertenencia y arraigo'],
+  },
+  'Angel Channeling': {
+    cat: 'Mediumnidad',
+    subtitle: 'Recibe orientación directamente de seres angélicos de luz.',
+    how: 'Tu guía se abre a las frecuencias angélicas — elevando su vibración para recibir transmisiones de arcángeles, ángeles guardianes y seres de luz. Estos mensajes son entregados con amor incondicional y siempre orientados a tu mayor bien.',
+    consists: 'Una sesión de 45-60 minutos de comunicación angélica.',
+    results: ['Profunda sensación de amor, seguridad y apoyo divino', 'Orientación clara desde perspectivas angélicas', 'Sanación del miedo y la duda espiritual', 'Confirmación de tu camino y elecciones', 'Elevada sensación de conexión con lo divino'],
+  },
+  'Energy Cleansing': {
+    cat: 'Limpieza y Protección',
+    subtitle: 'Libera la densidad acumulada y regresa a tu ligereza natural.',
+    how: 'Tu practicante usa diversas técnicas de limpieza energética — escaneo, barrido, sahumerio, sonido y oración intencional — para eliminar energías densas, estancadas o ajenas de tu aura y campo energético.',
+    consists: 'Una sesión de 45-60 minutos que puede realizarse en persona o a distancia.',
+    results: ['Sensación inmediata de ligereza y alivio', 'Pensamiento más claro y estabilidad emocional', 'Liberación de la pesadez de experiencias difíciles', 'Sentido restaurado de identidad energética', 'Mayor vitalidad y resiliencia emocional'],
+  },
+  'Aura Cleansing': {
+    cat: 'Limpieza y Protección',
+    subtitle: 'Restaura el brillo de tu luminoso campo energético.',
+    how: 'Tu practicante trabaja específicamente con tu campo áurico — el campo energético multicapa que rodea tu cuerpo físico. Usando visión clarividente y trabajo energético, identifica y repara desgarros, fugas, intrusiones y escombros en cada capa de tu aura.',
+    consists: 'Una sesión de 60 minutos enfocada enteramente en tu aura.',
+    results: ['Restauradas los límites energéticos y resiliencia', 'Protección para no absorber las energías de otros', 'Mayor sentido de identidad y poder personal', 'Regulación emocional mejorada', 'Sistema inmunológico energético fortalecido'],
+  },
+  'Cord Cutting': {
+    cat: 'Limpieza y Protección',
+    subtitle: 'Liberación de vínculos energéticos no saludables.',
+    how: 'Tu practicante identifica los cordones energéticos que te conectan a personas, situaciones o patrones que drenan tu energía. Usando intención, visualización y protocolos energéticos específicos, estos cordones se cortan compasivamente.',
+    consists: 'Una sesión de 45-60 minutos. Puedes especificar qué relaciones o situaciones quieres abordar.',
+    results: ['Libertad de dependencia o enredo energético', 'Renovado sentido de poder personal y autonomía', 'Alivio de pensamientos obsesivos sobre personas específicas', 'Espacio para nuevas conexiones más saludables', 'Sanación acelerada de dinámicas relacionales difíciles'],
+  },
+  'Protection Rituals': {
+    cat: 'Limpieza y Protección',
+    subtitle: 'Establece un escudo duradero de luz alrededor de ti y tu espacio.',
+    how: 'Tu guía te lleva a través de un ritual de protección personalizado usando herramientas sagradas, intención, oración y luz universal. El ritual crea un escudo energético que desvía la negatividad y mantiene tu soberanía energética.',
+    consists: 'Una sesión ritual de 45-60 minutos que puede incluir limpieza del espacio de tu hogar también.',
+    results: ['Protección energética consistente de influencias negativas', 'Alivio de sentirte drenado por personas o entornos', 'Límites energéticos seguros y protegidos', 'Capacidad para mantener tu energía en situaciones difíciles', 'Una práctica diaria que puedes usar para protegerte'],
+  },
+  'Abundance Rituals': {
+    cat: 'Rituales y Manifestación',
+    subtitle: 'Activa tu frecuencia natural de prosperidad y flujo.',
+    how: 'Tu guía crea un ritual personalizado adaptado a tu relación específica con la abundancia. Usando herramientas sagradas, establecimiento de intenciones, trabajo energético y ceremonia, el ritual limpia la programación de escasez y activa tu capacidad innata de recibir.',
+    consists: 'Una sesión ceremonial de 60-90 minutos realizada con intención sagrada.',
+    results: ['Liberación de creencias de escasez y programación limitante', 'Activación de tu frecuencia de abundancia', 'Renovada apertura a recibir en todas las formas', 'Alineación con el flujo natural de la prosperidad', 'Prácticas caseras para sostener el cambio'],
+  },
+  'Road Opening Rituals': {
+    cat: 'Rituales y Manifestación',
+    subtitle: 'Despeja el camino e invita nuevas posibilidades a tu vida.',
+    how: 'Basándose en prácticas ceremoniales tradicionales, tu guía realiza un ritual abre caminos para disolver obstáculos, limpiar energía de encrucijadas e invitar nuevas oportunidades y direcciones.',
+    consists: 'Una sesión ceremonial de 60-90 minutos alineada con momentos favorables cuando es posible.',
+    results: ['Disolución de obstáculos o bloqueos específicos', 'Nuevas puertas y oportunidades abriéndose', 'Alivio de sentirte estancado', 'Renovado impulso y movimiento hacia adelante', 'Sensación de posibilidad, esperanza y apoyo divino'],
+  },
+};
+
+
 <script>
+let currentLangModal = 'en';
+
 function setLang(lang){
+  currentLangModal = lang;
   document.querySelectorAll('[data-en]').forEach(el=>{
     const t=el.getAttribute('data-'+lang);
     if(!t)return;
@@ -396,6 +934,38 @@ function setLang(lang){
   });
   document.documentElement.lang=lang;
 }
+
+function openModal(serviceName){
+  const lang = currentLangModal;
+  const data = lang === 'es' ? SERVICES_ES[serviceName] : SERVICES.en[serviceName];
+  if(!data) return;
+  document.getElementById('modal-cat').textContent = data.cat;
+  document.getElementById('modal-title').innerHTML = serviceName;
+  document.getElementById('modal-subtitle').textContent = data.subtitle;
+  document.getElementById('modal-consists').textContent = data.consists;
+  document.getElementById('modal-how').textContent = data.how;
+  const resultsHTML = data.results.map(r=>
+    `<div class="modal-result-item"><span class="mri-dot"></span><span class="mri-text">${r}</span></div>`
+  ).join('');
+  document.getElementById('modal-results').innerHTML = resultsHTML;
+  // Update labels
+  document.getElementById('modal-consists-label').textContent = lang==='es' ? 'Qué incluye esta sesión' : 'What this session includes';
+  document.getElementById('modal-how-label').textContent = lang==='es' ? 'Cómo funciona' : 'How it works';
+  document.getElementById('modal-results-label').textContent = lang==='es' ? 'Qué puedes esperar' : 'What you can expect';
+  document.getElementById('modal-cta-note').textContent = lang==='es' ? '¿Listo para comenzar tu viaje?' : 'Ready to begin your journey?';
+  document.getElementById('modal-book-btn').textContent = lang==='es' ? 'Reservar una sesión' : 'Book a session';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(e){
+  if(e.target===document.getElementById('modal-overlay')) closeModalDirect();
+}
+function closeModalDirect(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModalDirect(); });
 
 // Scroll reveal
 (function(){
@@ -415,14 +985,13 @@ function setLang(lang){
     entries.forEach(e=>{
       if(e.isIntersecting){
         const id=e.target.id;
-        pills.forEach(p=>{
-          p.classList.toggle('active',p.getAttribute('href')==='#'+id);
-        });
+        pills.forEach(p=>{ p.classList.toggle('active',p.getAttribute('href')==='#'+id); });
       }
     });
   },{threshold:.3});
   sections.forEach(s=>io.observe(s));
 })();
 </script>
+
 </body>
 </html>
